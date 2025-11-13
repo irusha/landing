@@ -9,6 +9,7 @@ import {
     CheckCircle
 } from "lucide-react";
 import ServiceCards from "@/components/ServiceCards";
+import FeatureSlide from "@/components/FeatureSlide";
 import type { ServiceCardData } from "@/components/ServiceCards";
 
 // 3. This is the new "config" for your service cards
@@ -192,6 +193,21 @@ export default function FeaturesPage() {
             </div>
 
             <ServiceCards filter={activeFilter} cards={serviceCardsData} />
+            {/* Additional slides */}
+            <FeatureSlide
+                subtitle="VoxBuddy"
+                title="Your AI Therapist"
+                description="Chat with VoxBuddy, your supportive AI-powered companion. VoxBuddy is designed to answer questions, guide your learning journey, and boost your confidence with personalized help."
+                image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1470"
+            />
+
+            <FeatureSlide
+                subtitle="SmartRead"
+                title="Ask Anything from lengthy documents"
+                description="Upload documents and let SmartRead summarize them into easy-to-understand insights. Highlighted summaries and text-to-speech features make comprehension effortless."
+                image="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470"
+                reverse
+            />
 
         </main>
     );
