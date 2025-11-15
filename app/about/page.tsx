@@ -16,18 +16,17 @@ export default function AboutPage() {
             {/* ---------- About section ---------- */}
             <div className="max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-24">
                 {/* Left card - text */}
-                <div className="bg-[#A66CFF] text-black p-10 rounded-3xl shadow-lg flex flex-col justify-between">
+                <div className="text-black p-10 rounded-3xl shadow-lg flex flex-col justify-between bg-gradient-to-r from-blue-50 to-white">
                     <div>
                         <h2 className="text-2xl font-semibold mb-4">
                             So you know about{" "}
                             <span className="text-black">FitLife Gym</span> — but what
                             about the team behind it?
                         </h2>
-                        <p className="text-gray-200 leading-relaxed">
+                        <p className="text-gray-800 leading-relaxed">
                             Meet the passionate trainers, developers, and fitness lovers who
                             made this platform possible. Our team’s goal is to help you stay
-                            motivated, healthy, and inspired — whether you’re hitting the
-                            weights, joining a class, or tracking your progress.
+                            motivated, healthy, and inspired.
                         </p>
                     </div>
                     <div className="mt-10 text-center">
@@ -38,7 +37,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Right card - team photos */}
-                <div className="bg-[#A66CFF] p-8 rounded-3xl shadow-lg flex flex-wrap justify-center gap-4">
+                <div className="bg-gradient-to-r from-white to-blue-50 p-8 rounded-3xl shadow-lg flex flex-wrap justify-center gap-4">
                     <div className="relative w-40 h-28 rounded-xl overflow-hidden transform rotate-2 hover:rotate-0 transition">
                         <Image src="/team1.jpg" alt="Team 1" fill className="object-cover" />
                     </div>
