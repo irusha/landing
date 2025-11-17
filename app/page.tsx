@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PhoneMockup from "@/components/PhoneMockup";
 import {Dumbbell, Sparkles, Users, Zap} from "lucide-react";
+import FitnessHero from "@/app/Hero";
 
 export default function Home() {
     const [phoneScreen, setPhoneScreen] = useState(0); // 0..2
@@ -125,35 +126,7 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-gradient-hero">
             {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
-                    <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float [animation-delay:1s]" />
-                </div>
-
-                <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
-                    <div className="text-center lg:text-left animate-fade-in">
-                        <h1 className="text-5xl md:text-7xl font-bold mb-6 [background-image:var(--gradient-primary)] bg-clip-text text-transparent">
-                            Transform Your Fitness with AR
-                        </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-lg">
-                            Experience the future of workout training with augmented reality guidance. Real-time form correction, personalized routines, and immersive motivation.
-                        </p>
-                    </div>
-
-                    <div className="flex justify-center animate-slide-in-left">
-                        <div className="relative">
-                            <div className="absolute inset-0 [background-image:var(--gradient-primary)] opacity-50 blur-2xl [box-shadow:var(--shadow-glow)]" />
-                            <img
-                                src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&h=800&fit=crop"
-                                alt="AR Workout Preview"
-                                className="relative rounded-3xl shadow-2xl w-[300px] h-[600px] object-cover"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <FitnessHero/>
             {/* Phone Section */}
             <section ref={phoneContainerRef} className="flex justify-center items-center py-20">
                 <div className="sticky top-20">
