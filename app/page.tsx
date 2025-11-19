@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import PhoneMockup from "@/components/PhoneMockup";
 import {Dumbbell, Sparkles, Users, Zap} from "lucide-react";
 import FitnessHero from "@/app/Hero";
+import ScrollSlideshow from "@/app/Scroll";
+import ScrollControlledSlideshow from "@/app/Scroll";
 
 export default function Home() {
     const [phoneScreen, setPhoneScreen] = useState(0); // 0..2
@@ -12,7 +14,7 @@ export default function Home() {
     const isPhoneInView = () => {
         if (!phoneContainerRef.current) return false;
         const rect = phoneContainerRef.current.getBoundingClientRect();
-        return rect.top < window.innerHeight && rect.bottom > 0;
+        return rect.top + (window.innerHeight - 200) < window.innerHeight && rect.bottom > 0;
     };
 
     useEffect(() => {
@@ -20,6 +22,7 @@ export default function Home() {
         let raf: number | null = null;
         const SENSITIVITY = 0.003; // Base sensitivity for wheel
         const TOUCH_SENSITIVITY = 0.005; // Base sensitivity for touch
+        const MAX_STEP = 0.4; // Limit per event to avoid skipping screens on fast flicks
         const MAX_SCREEN = 2;
         const MIN_SCREEN = 0;
 
@@ -28,36 +31,32 @@ export default function Home() {
         const onWheel = (e: WheelEvent) => {
             if (!phoneContainerRef.current) return;
 
-            // 1. Check if the phone container is currently visible on the screen
             const isInView = isPhoneInView();
             if (!isInView) return;
 
-            const delta = e.deltaY * SENSITIVITY;
-            const newPhoneScreen = clamp(phoneScreen + delta); // Calculate potential new value
+            // Compress very large deltas so fast flicks don't jump multiple screens
+            let raw = e.deltaY * SENSITIVITY;
+            const delta = Math.max(-MAX_STEP, Math.min(MAX_STEP, raw));
+            const prospective = clamp(phoneScreen + delta); // value after this wheel
 
-            // 2. Determine if the scroll will cause a screen change or if we are at a boundary
-            const isScrollingUp = delta < 0; // Negative delta is scroll up
-            const isScrollingDown = delta > 0; // Positive delta is scroll down
+            const isScrollingUp = delta < 0;
+            const isScrollingDown = delta > 0;
+            // Use prospective value for boundary detection + tolerance
+            const TOL = 0.001;
+            const isAtUpperLimit = prospective >= (MAX_SCREEN - TOL) && isScrollingDown;
+            const isAtLowerLimit = prospective <= (MIN_SCREEN + TOL) && isScrollingUp;
 
-            // We only prevent default scroll *if* we are still transitioning screens.
-            // If the user tries to scroll down while already at screen 2,
-            // or up while already at screen 0, we *don't* prevent default, allowing the main page to scroll.
-            const isAtUpperLimit = phoneScreen === MAX_SCREEN && isScrollingDown;
-            const isAtLowerLimit = phoneScreen === MIN_SCREEN && isScrollingUp;
-
+            // Allow native page scroll if this event would hit a boundary
             if (!isAtUpperLimit && !isAtLowerLimit) {
-                // Prevent default scroll only if we are actively transitioning
                 e.preventDefault();
             }
 
-            // Always accumulate delta, and let the clamp function handle the boundaries
             accDelta += delta;
 
             if (!raf) {
                 raf = requestAnimationFrame(() => {
                     setPhoneScreen(prev => {
                         const nextVal = clamp(prev + accDelta);
-                        // Ensure we don't apply delta that goes beyond the max/min
                         accDelta = 0;
                         raf = null;
                         return nextVal;
@@ -73,30 +72,25 @@ export default function Home() {
 
         const onTouchMove = (e: TouchEvent) => {
             if (!phoneContainerRef.current || e.touches.length === 0) return;
-
-            // Use the same logic for touch as for wheel
             const isInView = isPhoneInView();
             if (!isInView) return;
 
             const y = e.touches[0].clientY;
-            // Negative delta (upward swipe) means screen goes up (negative number change)
-            const delta = (lastTouchY - y) * TOUCH_SENSITIVITY;
+            let raw = (lastTouchY - y) * TOUCH_SENSITIVITY;
+            // Apply same per-event cap for touch gestures
+            const delta = Math.max(-MAX_STEP, Math.min(MAX_STEP, raw));
             lastTouchY = y;
+            const prospective = clamp(phoneScreen + delta);
+            const isScrollingUp = delta > 0; // upward swipe increases screen
+            const isScrollingDown = delta < 0;
+            const TOL = 0.001;
+            const isAtUpperLimit = prospective >= (MAX_SCREEN - TOL) && isScrollingUp; // note direction logic for touch (delta > 0 moves forward)
+            const isAtLowerLimit = prospective <= (MIN_SCREEN + TOL) && isScrollingDown;
 
-            const newPhoneScreen = clamp(phoneScreen + delta);
-
-            const isScrollingUp = delta > 0; // Upward swipe (screen number increases)
-            const isScrollingDown = delta < 0; // Downward swipe (screen number decreases)
-
-            // Touch move needs to prevent default to stop page scroll/bounce/refresh
-            // We need a more complex strategy for touch to allow page scroll when at boundaries.
-            // For simplicity and common use, let's allow touch to drive the transition while in view,
-            // and rely on browser behavior to scroll the page once the custom scroll can't proceed.
-            // A perfect touch solution is much more complex, but this will get you closer.
-
-            // *Simple Fix for Touch:* Prevent default to ensure custom scroll works,
-            // and trust the user will scroll the main page out of the phone view range once they hit the end.
-            e.preventDefault();
+            // Only prevent default while transitioning internally
+            if (!isAtUpperLimit && !isAtLowerLimit) {
+                e.preventDefault();
+            }
 
             accDelta += delta;
             if (!raf) {
@@ -127,10 +121,17 @@ export default function Home() {
         <div className="min-h-screen bg-gradient-hero">
             {/* Hero Section */}
             <FitnessHero/>
+            <ScrollControlledSlideshow images={[
+                "https://picsum.photos/seed/100/1920/1080",
+                "https://picsum.photos/seed/200/1920/1080",
+                "https://picsum.photos/seed/300/1920/1080",
+                "https://picsum.photos/seed/400/1920/1080",
+            ]}
+            height={"calc(100vh - 4rem)"}/>
             {/* Phone Section */}
             <section ref={phoneContainerRef} className="flex justify-center items-center py-20">
                 <div className="sticky top-20">
-                    <PhoneMockup screenIndex={phoneScreen} />
+                    {/*<PhoneMockup screenIndex={phoneScreen} />*/}
                 </div>
             </section>
 
@@ -183,7 +184,7 @@ export default function Home() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-24 px-4 bg-gradient-primary text-white relative overflow-hidden">
+            <section className="py-24 px-4 bg-gradient-primary  relative overflow-hidden">
                 <div className="absolute inset-0 overflow-hidden opacity-10">
                     <div className="absolute -top-24 -left-24 w-96 h-96 border-2 border-white rounded-full" />
                     <div className="absolute -bottom-24 -right-24 w-96 h-96 border-2 border-white rounded-full" />
