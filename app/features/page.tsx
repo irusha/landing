@@ -121,7 +121,7 @@ export default function FeaturesPage() {
                     ⚡ Complete Feature Catalog
                 </button>
                 <h1 className="text-5xl font-extrabold mt-6 leading-tight">
-                    Our <span className="block">Features</span>
+                    Our Features
                 </h1>
                 <p className="mt-4 text-gray-500 text-lg leading-relaxed">
                     Discover comprehensive fitness programs designed by experts to help you
@@ -158,16 +158,18 @@ export default function FeaturesPage() {
                 More Smart Features
             </h2>
             {/* Additional slides */}
-            <div className="gap-6 mb-10 w-full mx-auto flex flex-row items-center justify-center">
+            <div className="gap-6 mb-10 w-full mx-auto flex flex-col md:flex-row items-center justify-center">
                 <FeatureSlide
                     subtitle="VoxBuddy"
                     title="Ask Anything from lengthy documents"
+                    description="Chat with VoxBuddy, your supportive AI-powered companion."
                     image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1470"
                 />
 
                 <FeatureSlide
                     subtitle="SmartRead"
                     title="Ask Anything from lengthy documents"
+                    description="Upload documents and let SmartRead summarize them into easy-to-understand insights."
                     image="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470"
                     reverse
                 />
