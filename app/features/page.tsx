@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
     Search, Dumbbell, Heart, Users, User, Cpu,
     Sprout,
@@ -21,7 +20,7 @@ const serviceCardsData: ServiceCardData[] = [
         image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1470",
         price: "From $35",
         icon: <Dumbbell size={24} />,
-        category: "Strength", // Matches the filter label
+        category: "Strength",
         details: [
             { icon: <Clock size={16} />, text: "45-60 minutes" },
             { icon: <BarChart size={16} />, text: "Beginner to Advanced" },
@@ -36,7 +35,7 @@ const serviceCardsData: ServiceCardData[] = [
         image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470",
         price: "From $25",
         icon: <Heart size={24} />,
-        category: "Cardio", // Matches the filter label
+        category: "Cardio",
         details: [
             { icon: <Clock size={16} />, text: "30-45 minutes" },
             { icon: <BarChart size={16} />, text: "All Levels" },
@@ -51,7 +50,7 @@ const serviceCardsData: ServiceCardData[] = [
         image: "https://images.unsplash.com/photo-1571902943202-50aec6386092?auto=format&fit=crop&w=1470",
         price: "From $20",
         icon: <Users size={24} />,
-        category: "Group Classes", // Matches the filter label
+        category: "Group Classes",
         details: [
             { icon: <Clock size={16} />, text: "45-60 minutes" },
             { icon: <BarChart size={16} />, text: "All Levels" },
@@ -66,7 +65,7 @@ const serviceCardsData: ServiceCardData[] = [
         image: "https://images.unsplash.com/photo-1594737637105-3EB4e9c4A57a?auto=format&fit=crop&w=1470",
         price: "From $50",
         icon: <User size={24} />,
-        category: "Personal", // Matches the filter label
+        category: "Personal",
         details: [
             { icon: <Clock size={16} />, text: "60 minutes" },
             { icon: <BarChart size={16} />, text: "Customized" },
@@ -81,7 +80,7 @@ const serviceCardsData: ServiceCardData[] = [
         image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1520",
         price: "From $30",
         icon: <Sprout size={24} />,
-        category: "Wellness", // Matches the filter label
+        category: "Wellness",
         details: [
             { icon: <Clock size={16} />, text: "30-60 minutes" },
             { icon: <BarChart size={16} />, text: "All Levels" },
@@ -93,19 +92,6 @@ const serviceCardsData: ServiceCardData[] = [
 
 
 export default function FeaturesPage() {
-    // 2. Updated initial state to match the filter list
-    const [activeFilter, setActiveFilter] = useState("All Services");
-
-    // 2. Updated filters list
-    const filters = [
-        { label: "All Services", icon: <Search size={16} /> },
-        { label: "Strength", icon: <Dumbbell size={16} /> },
-        { label: "Cardio", icon: <Heart size={16} /> },
-        { label: "Group Classes", icon: <Users size={16} /> },
-        { label: "Personal", icon: <User size={16} /> },
-        { label: "Wellness", icon: <Sprout size={16} /> }, // Added Wellness
-    ];
-
     const cards = [
         {
             title: "Using the Latest Technology",
@@ -165,34 +151,9 @@ export default function FeaturesPage() {
                 ))}
             </div>
 
-            {/* Search + Filter section */}
-            <div className="w-full max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
-                <div className="w-full md:w-1/3">
-                    <input
-                        type="text"
-                        placeholder="Search services..."
-                        className="w-full bg-gray-100 border-none rounded-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                    />
-                </div>
-                <div className="flex flex-wrap justify-start md:justify-end gap-3 w-full md:w-2/3">
-                    {filters.map((filter) => (
-                        <button
-                            key={filter.label}
-                            onClick={() => setActiveFilter(filter.label)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition 
-                ${activeFilter === filter.label
-                                ? "bg-black text-white"
-                                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                            }`}
-                        >
-                            {filter.icon}
-                            <span>{filter.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </div>
+            {/* Updated ServiceCards Component - No filters passed */}
+            <ServiceCards cards={serviceCardsData} />
 
-            <ServiceCards filter={activeFilter} cards={serviceCardsData} />
             {/* Additional slides */}
             <FeatureSlide
                 subtitle="VoxBuddy"
