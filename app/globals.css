@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All colors MUST be HSL.
+*/
+@theme {
+    --color-background: 0 0% 100%;
+    --color-foreground: 222 47% 11%;
+    --color-card: 0 0% 100%;
+    --color-card-foreground: 222 47% 11%;
+    --color-popover: 0 0% 100%;
+    --color-popover-foreground: 222 47% 11%;
+    --color-primary: 195 100% 45%;
+    --color-primary-foreground: 0 0% 100%;
+    --color-secondary: 220 14% 96%;
+    --color-secondary-foreground: 222 47% 11%;
+    --color-muted: 220 14% 96%;
+    --color-muted-foreground: 220 9% 46%;
+    --color-accent: 195 100% 35%;
+    --color-accent-foreground: 0 0% 100%;
+    --color-destructive: 0 84% 60%;
+    --color-destructive-foreground: 0 0% 100%;
+    --color-border: 220 13% 91%;
+    --color-input: 220 13% 91%;
+    --color-ring: 195 100% 45%;
+    --color-sidebar-background: 0 0% 98%;
+    --color-sidebar-foreground: 240 5.3% 26.1%;
+    --color-sidebar-primary: 240 5.9% 10%;
+    --color-sidebar-primary-foreground: 0 0% 98%;
+    --color-sidebar-accent: 240 4.8% 95.9%;
+    --color-sidebar-accent-foreground: 240 5.9% 10%;
+    --color-sidebar-border: 220 13% 91%;
+    --color-sidebar-ring: 217.2 91.2% 59.8%;
+
+    --radius-default: 0.75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+    :root {
+        --gradient-primary: linear-gradient(135deg, hsl(195 100% 45%), hsl(220 100% 60%));
+        --gradient-hero: linear-gradient(180deg, hsl(220 100% 98%), hsl(195 100% 95%));
+        --shadow-glow: 0 0 60px hsl(195 100% 45% / 0.3);
+        --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+    .dark {
+        --color-background: 222 47% 11%;
+        --color-foreground: 0 0% 98%;
+        --color-card: 222 47% 15%;
+        --color-card-foreground: 0 0% 98%;
+        --color-popover: 222 47% 15%;
+        --color-popover-foreground: 0 0% 98%;
+        --color-primary: 195 100% 50%;
+        --color-primary-foreground: 0 0% 100%;
+        --color-secondary: 217 33% 18%;
+        --color-secondary-foreground: 0 0% 98%;
+        --color-muted: 217 33% 18%;
+        --color-muted-foreground: 215 20% 65%;
+        --color-accent: 195 100% 40%;
+        --color-accent-foreground: 0 0% 100%;
+        --color-destructive: 0 63% 31%;
+        --color-destructive-foreground: 0 0% 100%;
+        --color-border: 217 33% 18%;
+        --color-input: 217 33% 18%;
+        --color-ring: 195 100% 50%;
+        --color-sidebar-background: 240 5.9% 10%;
+        --color-sidebar-foreground: 240 4.8% 95.9%;
+        --color-sidebar-primary: 224.3 76.3% 48%;
+        --color-sidebar-primary-foreground: 0 0% 100%;
+        --color-sidebar-accent: 240 3.7% 15.9%;
+        --color-sidebar-accent-foreground: 240 4.8% 95.9%;
+        --color-sidebar-border: 240 3.7% 15.9%;
+        --color-sidebar-ring: 217.2 91.2% 59.8%;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+        --gradient-primary: linear-gradient(135deg, hsl(195 100% 50%), hsl(220 100% 65%));
+        --gradient-hero: linear-gradient(180deg, hsl(222 47% 11%), hsl(222 47% 15%));
+        --shadow-glow: 0 0 60px hsl(195 100% 50% / 0.4);
+    }
+
+    * {
+        border-color: hsl(var(--color-border));
+    }
+
+    body {
+        background-color: hsl(var(--color-background));
+        color: hsl(var(--color-foreground));
+    }
+
+    .text-muted-foreground{
+        color: hsl(var(--color-muted-foreground));
+    }
 }

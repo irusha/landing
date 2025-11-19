@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CardDetail {
     icon: React.ReactNode;
@@ -14,80 +15,113 @@ export interface ServiceCardData {
     image: string;
     price: string;
     icon: React.ReactNode;
-    category: string; // This is the key for filtering
+    category: string;
     details: CardDetail[];
 }
 
 interface ServiceCardsProps {
-    filter: string;
     cards: ServiceCardData[];
 }
 
-const ServiceCards: React.FC<ServiceCardsProps> = ({ filter, cards }) => {
-    // Memoize the filtered list so it only recalculates when the filter or cards change
-    const filteredCards = useMemo(() => {
-        // If 'All Services' is selected, return all cards
-        if (filter === 'All Services') {
-            return cards;
-        }
-        // Otherwise, filter by the category
-        return cards.filter(card => card.category === filter);
-    }, [filter, cards]);
+const ServiceCards: React.FC<ServiceCardsProps> = ({ cards }) => {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Show a message if no cards match the filter
-    if (filteredCards.length === 0) {
-        return (
-            <div className="w-full max-w-6xl text-center mt-10 py-10 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No services found for this category.</p>
-            </div>
-        );
-    }
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = 340;
+            scrollContainerRef.current.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth',
+            });
+        }
+    };
 
     return (
-        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 mb-20">
-            {filteredCards.map((card) => (
-                <div
-                    key={card.id}
-                    // This container has the hover effect you wanted
-                    className="bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 flex flex-col"
-                >
-                    {/* Image Section */}
+        <div className="w-full max-w-[1400px] mx-auto mt-10 mb-20 px-4 relative group">
+
+            {/* Navigation Buttons - High Visibility */}
+            <button
+                onClick={() => scroll('left')}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-gray-100 hover:bg-gray-200 text-black p-3 rounded-full shadow-xl transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0 md:-ml-4 border border-gray-300"
+                aria-label="Scroll left"
+            >
+                <ChevronLeft size={24} />
+            </button>
+
+            <button
+                onClick={() => scroll('right')}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-gray-100 hover:bg-gray-200 text-black p-3 rounded-full shadow-xl transition-all opacity-0 group-hover:opacity-100 md:-mr-4 border border-gray-300"
+                aria-label="Scroll right"
+            >
+                <ChevronRight size={24} />
+            </button>
+
+            {/* Carousel Container */}
+            <div
+                ref={scrollContainerRef}
+                className="
+                    flex gap-6 overflow-x-auto pb-8 pt-4
+                    snap-x snap-mandatory
+                    /* Hide Scrollbar */
+                    [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
+                "
+            >
+                {cards.map((card) => (
                     <div
-                        className="relative w-full h-56 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${card.image})` }}
+                        key={card.id}
+                        // Card Container: Tall height + Dark background to frame screenshots nicely
+                        className="relative flex-shrink-0 w-[300px] h-[550px] md:w-[340px] md:h-[600px] snap-center rounded-[32px] overflow-hidden shadow-xl bg-gray-900 transition-transform duration-300 hover:scale-[1.02]"
                     >
-                        {/* Price Tag */}
-                        <span className="absolute top-4 right-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm font-medium">
-                            {card.price}
-                        </span>
+                        {/* 1. ACTUAL IMAGE TAG (Instead of background-image)
+                           2. object-contain: Ensures full image is visible (no cropping)
+                        */}
+                        <img
+                            src={card.image}
+                            alt={card.title}
+                            className="absolute inset-0 w-full h-full object-contain z-0 transition-transform duration-700 hover:scale-105"
+                        />
 
-                        {/* Main Icon (bottom left) */}
-                        <div className="absolute bottom-4 left-4 bg-white text-black p-3 rounded-full shadow-lg">
-                            {card.icon}
-                        </div>
-                    </div>
+                        {/* Gradient Overlay
+                           - Added 'from-black/80' at the top to ensure white text is readable even if the screenshot has a white header.
+                           - Added 'to-black/90' at bottom for text readability.
+                        */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90 z-10" />
 
-                    {/* Content Section */}
-                    <div className="p-6 flex-grow">
-                        <h3 className="text-xl font-bold text-gray-900 mb-2 text-left">{card.title}</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed text-left">
-                            {card.description}
-                        </p>
-                    </div>
+                        {/* Content Layer (z-20 ensures it sits on top of gradient) */}
+                        <div className="absolute inset-0 p-8 flex flex-col justify-between text-left z-20">
 
-                    {/* Footer Details Section */}
-                    <div className="p-6 border-t border-gray-100 bg-gray-50">
-                        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                            {card.details.map((detail, index) => (
-                                <div key={index} className="flex items-center gap-2 text-sm text-gray-700">
-                                    <span className="text-gray-500">{detail.icon}</span>
-                                    <span className="truncate">{detail.text}</span>
+                            {/* Top Section */}
+                            <div>
+                                <span className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-2 block">
+                                    {card.category}
+                                </span>
+                                <h3 className="text-3xl font-bold text-white leading-tight drop-shadow-md">
+                                    {card.title}
+                                </h3>
+                            </div>
+
+                            {/* Description */}
+                            <div className="opacity-90">
+                                <p className="text-gray-200 text-sm font-medium line-clamp-3 drop-shadow-sm">
+                                    {card.description}
+                                </p>
+                            </div>
+
+                            {/* Bottom Section */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white border border-white/10">
+                                        {card.icon}
+                                    </div>
+                                    <span className="text-white font-semibold text-lg drop-shadow-md">
+                                        {card.price}
+                                    </span>
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };
