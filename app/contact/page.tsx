@@ -93,20 +93,17 @@ export default function Contact() {
                 }}>
 
                     <h2>📞 CALL US</h2>
-                    <p>1 (234) 567-891</p>
-                    <p>1 (234) 987-654</p>
+                    <p>+94 753405009</p>
 
                     <br />
 
                     <h2>📍 LOCATION</h2>
-                    <p>121 Rock Street, 21 Avenue, New York, NY 92103-9000</p>
+                    <p>Repz.lk, Bay 7, Trace Expert City, Maradana, Colombo 10</p>
 
                     <br />
 
                     <h2>⏰ BUSINESS HOURS</h2>
-                    <p>Mon – Fri: 10am – 8pm</p>
-                    <p>Sat: 10am – 8pm</p>
-                    <p>Sun: Closed</p>
+                    <p>Mon – Fri: 8.30am – 5.30pm</p>
                 </div>
             </div>
         </div>
