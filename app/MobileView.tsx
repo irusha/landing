@@ -273,7 +273,7 @@ const useStageOpacity = (progress: MotionValue<number>, start: number, end: numb
  
      return (
         <section ref={containerRef} className="relative w-full bg-gradient-to-b from-[#f2f7ff] via-white to-white" style={{ minHeight: trackHeight }}>
-            <div className="sticky top-0 flex items-center justify-center" style={{ height: normalizedHeight }}>
+            <div className="sticky top-0 md:top-16 flex items-center justify-center" style={{ height: normalizedHeight }}>
                  <div className="relative flex h-full w-full max-w-6xl items-center justify-center px-4 py-12 md:px-8">
                      {TEXT_BLOCKS.map(block => {
                          const opacity = useStageOpacity(smoothProgress, block.range[0], block.range[1]);
@@ -290,7 +290,7 @@ const useStageOpacity = (progress: MotionValue<number>, start: number, end: numb
                          );
                      })}
  
-                    <div className="absolute inset-x-0 -bottom-16 px-4 md:hidden">
+                    <div className="absolute inset-x-0 -bottom-12 px-4 md:hidden">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={mobileCaption.id}
@@ -308,7 +308,7 @@ const useStageOpacity = (progress: MotionValue<number>, start: number, end: numb
                     </div>
 
                     <motion.div
-                        className="relative h-[520px] w-[260px] rounded-[48px] border-8 border-slate-200 bg-slate-900 shadow-[0_30px_120px_rgba(15,23,42,0.25)] md:h-[640px] md:w-[320px]"
+                        className="relative h-[520px] w-[260px] rounded-[48px] border-8 border-slate-200 bg-slate-900 shadow-[0_30px_120px_rgba(15,23,42,0.25)] md:mt-16 md:h-[640px] md:w-[320px]"
                          style={{ translateX: phoneTranslateX, rotate: phoneRotate, scale: phoneScale }}
                      >
                          <div className="absolute left-1/2 top-0 h-8 w-40 -translate-x-1/2 rounded-b-[32px] bg-slate-900" />
