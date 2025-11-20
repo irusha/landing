@@ -4,8 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import PhoneMockup from "@/components/PhoneMockup";
 import {Dumbbell, Sparkles, Users, Zap} from "lucide-react";
 import FitnessHero from "@/app/Hero";
-import ScrollSlideshow from "@/app/Scroll";
-import ScrollControlledSlideshow from "@/app/Scroll";
+import ScrollSlideshow from "@/app/MobileView";
+import ScrollControlledSlideshow from "@/app/MobileView";
 
 export default function Home() {
     const [phoneScreen, setPhoneScreen] = useState(0); // 0..2
