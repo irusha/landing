@@ -10,6 +10,7 @@ import {
 import ServiceCards from "@/components/ServiceCards";
 import FeatureSlide from "@/components/FeatureSlide";
 import type { ServiceCardData } from "@/components/ServiceCards";
+import { motion } from "framer-motion";
 
 // 3. This is the new "config" for your service cards
 const serviceCardsData: ServiceCardData[] = [
@@ -116,28 +117,68 @@ export default function FeaturesPage() {
     return (
         <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-100 to-white text-center px-6 py-10 text-gray-800">
             {/* Top section */}
-            <div className="max-w-2xl mb-8">
-                <button className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition">
+            <motion.div
+                className="max-w-2xl mb-8"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: true }}
+            >
+                <motion.button
+                    className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition"
+                    initial={{ opacity: 0, y: -10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                >
                     ⚡ Complete Feature Catalog
-                </button>
-                <h1 className="text-5xl font-extrabold mt-6 leading-tight">
+                </motion.button>
+
+                <motion.h1
+                    className="text-5xl font-extrabold mt-6 leading-tight"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35, duration: 0.6 }}
+                >
                     Our Features
-                </h1>
-                <p className="mt-4 text-gray-500 text-lg leading-relaxed">
+                </motion.h1>
+
+                <motion.p
+                    className="mt-4 text-gray-500 text-lg leading-relaxed"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.6 }}
+                >
                     Discover comprehensive fitness programs designed by experts to help you
                     achieve your goals. From personal training to group classes, we have
                     everything you need for your fitness journey.
-                </p>
-            </div>
+                </motion.p>
+            </motion.div>
 
-            {/* Feature cards section*/}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 w-full max-w-6xl">
+            {/* Feature cards section */}
+            <motion.div
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 w-full max-w-6xl"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: { staggerChildren: 0.15 }
+                    }
+                }}
+            >
                 {cards.map((card, index) => (
-                    <div
+                    <motion.div
                         key={index}
+                        variants={{
+                            hidden: { opacity: 0, y: 30 },
+                            visible: { opacity: 1, y: 0 }
+                        }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
                         className="flex flex-col items-center justify-center bg-white rounded-3xl shadow-sm border border-gray-100 px-6 py-10 transition hover:shadow-lg"
                     >
                         {card.icon && <div className="mb-4">{card.icon}</div>}
+
                         {card.image && (
                             <img
                                 src={card.image}
@@ -145,11 +186,12 @@ export default function FeaturesPage() {
                                 className="w-40 h-40 object-contain mb-4"
                             />
                         )}
+
                         <h3 className="text-xl font-bold text-gray-800 mb-2">{card.title}</h3>
                         <p className="text-gray-500 text-sm max-w-xs">{card.description}</p>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
 
             {/* Updated ServiceCards Component - No filters passed */}
             <ServiceCards cards={serviceCardsData} />
@@ -169,7 +211,7 @@ export default function FeaturesPage() {
                 <FeatureSlide
                     subtitle="SmartRead"
                     title="Ask Anything from lengthy documents"
-                    description="Upload documents and let SmartRead summarize them into easy-to-understand insights."
+                    description="let SmartRead summarize them documents easy-to-understand insights."
                     image="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470"
                     reverse
                 />
