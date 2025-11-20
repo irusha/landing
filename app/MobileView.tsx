@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
-import { motion, MotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "framer-motion";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, MotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "framer-motion";
  
  interface SlideshowProps {
      images?: string[];
@@ -16,6 +16,13 @@ import { motion, MotionValue, useMotionValueEvent, useScroll, useSpring, useTran
      range: [number, number];
  }
  
+interface CaptionBlock {
+    id: string;
+    eyebrow: string;
+    title: string;
+    body: string;
+}
+
  const STAGE_RANGES: Array<[number, number]> = [
      [0, 0.25], // splash
      [0.25, 0.5], // text left / phone right
@@ -35,38 +42,65 @@ import { motion, MotionValue, useMotionValueEvent, useScroll, useSpring, useTran
          id: "splash",
          title: "Placeholder Splash",
          body: "Introduce the concept with a short line of copy that feels like a launch moment.",
-         className: "absolute left-1/2 bottom-12 -translate-x-1/2 text-center max-w-xl",
+        className: "hidden md:block absolute left-1/2 bottom-12 -translate-x-1/2 text-center max-w-xl",
          range: STAGE_RANGES[0],
      },
      {
          id: "left-feature",
          title: "Left Aligned Placeholder",
          body: "Describe a feature while the phone glides to the right. Keep it brief and scannable.",
-         className: "absolute left-10 md:left-20 top-1/3 max-w-sm text-left",
+        className: "hidden md:block absolute left-10 md:left-20 top-1/3 max-w-sm text-left",
          range: STAGE_RANGES[1],
      },
      {
          id: "right-feature",
          title: "Right Aligned Placeholder",
          body: "Mirror the treatment with copy anchored to the right edge, giving focus to another detail.",
-         className: "absolute right-10 md:right-20 top-1/3 max-w-sm text-right",
+        className: "hidden md:block absolute right-10 md:right-20 top-1/3 max-w-sm text-right",
          range: STAGE_RANGES[2],
      },
      {
          id: "final-top",
          title: "Surround Title",
          body: "Placeholders can live above the phone, hinting at supporting context.",
-         className: "absolute left-14 md:left-28 top-12 max-w-xs text-left",
+        className: "hidden md:block absolute left-14 md:left-28 top-12 max-w-xs text-left",
          range: STAGE_RANGES[3],
      },
      {
          id: "final-bottom",
          title: "Supporting Placeholder",
          body: "Add another short line near the bottom to complete the wraparound treatment.",
-         className: "absolute right-12 md:right-28 bottom-12 max-w-xs text-right",
+        className: "hidden md:block absolute right-12 md:right-28 bottom-12 max-w-xs text-right",
          range: STAGE_RANGES[3],
      },
  ];
+
+const CAPTION_CONTENT: CaptionBlock[] = [
+    {
+        id: "splash",
+        eyebrow: "Placeholder Copy",
+        title: "Splash Screen Concept",
+        body: "Lead with a hero moment before any motion happens.",
+    },
+    {
+        id: "left-feature",
+        eyebrow: "Feature Caption",
+        title: "Rightward Motion",
+        body: "Phone slides to the right while this caption anchors the story.",
+    },
+    {
+        id: "right-feature",
+        eyebrow: "Feature Caption",
+        title: "Leftward Motion",
+        body: "Mirror the interaction with a caption synced to the new screen.",
+    },
+    {
+        id: "final-stage",
+        eyebrow: "Placeholder Copy",
+        title: "Centered Finale",
+        body: "Wrap up with balanced content and a final supporting note.",
+    },
+];
  
  const ensureImageSet = (images: string[] | undefined, target = STAGE_RANGES.length) => {
      const prepared = [...(images ?? [])];
@@ -89,6 +123,16 @@ const useStageOpacity = (progress: MotionValue<number>, start: number, end: numb
      const normalizedHeight = useMemo(() => normalizedHeightValue(height), [height]);
      const trackHeight = useMemo(() => `calc(${normalizedHeight} * ${STAGE_RANGES.length})`, [normalizedHeight]);
      const imageSet = useMemo(() => ensureImageSet(_images), [_images]);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const mediaQuery = window.matchMedia("(max-width: 767px)");
+        const update = () => setIsMobile(mediaQuery.matches);
+        update();
+        mediaQuery.addEventListener("change", update);
+        return () => mediaQuery.removeEventListener("change", update);
+    }, []);
  
      const { scrollYProgress } = useScroll({
          target: containerRef,
@@ -112,9 +156,22 @@ const useStageOpacity = (progress: MotionValue<number>, start: number, end: numb
          setActiveStage(resolvedStage);
      });
  
-     const phoneTranslateX = useTransform(smoothProgress, [0, 0.25, 0.5, 0.75, 1], ["0vw", "18vw", "-18vw", "0vw", "0vw"]);
-     const phoneRotate = useTransform(smoothProgress, [0, 0.25, 0.5, 0.75, 1], ["0deg", "-6deg", "6deg", "0deg", "0deg"]);
-     const phoneScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 0.96, 1]);
+     const phoneTranslateX = useTransform(
+         smoothProgress,
+         [0, 0.25, 0.5, 0.90, 1],
+         isMobile ? ["0vw", "0vw", "0vw", "0vw", "0vw"] : ["0vw", "18vw", "-18vw", "0vw", "0vw"],
+     );
+     const phoneRotate = useTransform(
+         smoothProgress,
+         [0, 0.25, 0.5, 0.90, 1],
+         isMobile ? ["0deg", "0deg", "0deg", "0deg", "0deg"] : ["0deg", "-6deg", "6deg", "0deg", "0deg"],
+     );
+     const phoneScale = useTransform(
+         smoothProgress,
+         isMobile ? [0, 0.15, 0.35, 1] : [0, 0.5, 1],
+         isMobile ? [1, 0.85, 0.90, 0.90] : [1, 0.96, 1],
+     );
+    const mobileCaption = CAPTION_CONTENT[activeStage] ?? CAPTION_CONTENT[0];
  
      const renderPhoneScreen = () => {
          const stageImage = imageSet[activeStage];
@@ -233,8 +290,25 @@ const useStageOpacity = (progress: MotionValue<number>, start: number, end: numb
                          );
                      })}
  
-                     <motion.div
-                         className="relative h-[640px] w-[320px] rounded-[48px] border-8 border-slate-200 bg-slate-900 shadow-[0_30px_120px_rgba(15,23,42,0.25)]"
+                    <div className="absolute inset-x-0 -bottom-16 px-4 md:hidden">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={mobileCaption.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -14 }}
+                                transition={{ duration: 0.4, ease: "easeOut" }}
+                                className="mx-auto w-full max-w-md rounded-3xl bg-white/90 p-4 text-center text-slate-900 shadow-xl backdrop-blur"
+                            >
+                                <p className="text-xs uppercase tracking-[0.4em] text-slate-400">{mobileCaption.eyebrow}</p>
+                                <h3 className="mt-2 text-2xl font-semibold">{mobileCaption.title}</h3>
+                                <p className="mt-2 text-base text-slate-500">{mobileCaption.body}</p>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    <motion.div
+                        className="relative h-[520px] w-[260px] rounded-[48px] border-8 border-slate-200 bg-slate-900 shadow-[0_30px_120px_rgba(15,23,42,0.25)] md:h-[640px] md:w-[320px]"
                          style={{ translateX: phoneTranslateX, rotate: phoneRotate, scale: phoneScale }}
                      >
                          <div className="absolute left-1/2 top-0 h-8 w-40 -translate-x-1/2 rounded-b-[32px] bg-slate-900" />
