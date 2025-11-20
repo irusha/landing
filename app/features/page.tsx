@@ -120,14 +120,13 @@ export default function FeaturesPage() {
             <motion.div
                 className="max-w-2xl mb-8"
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                viewport={{ once: true }}
             >
                 <motion.button
                     className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition"
                     initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
                 >
                     ⚡ Complete Feature Catalog
@@ -136,7 +135,7 @@ export default function FeaturesPage() {
                 <motion.h1
                     className="text-5xl font-extrabold mt-6 leading-tight"
                     initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.35, duration: 0.6 }}
                 >
                     Our Features
@@ -145,7 +144,7 @@ export default function FeaturesPage() {
                 <motion.p
                     className="mt-4 text-gray-500 text-lg leading-relaxed"
                     initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.6 }}
                 >
                     Discover comprehensive fitness programs designed by experts to help you
@@ -158,8 +157,7 @@ export default function FeaturesPage() {
             <motion.div
                 className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 w-full max-w-6xl"
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
+                animate="visible"
                 variants={{
                     hidden: {},
                     visible: {
