@@ -196,13 +196,6 @@ export default function Home() {
                     <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">Download now and get 7 days of premium features completely free. No credit card required.</p>
                 </div>
             </section>
-
-            {/* Footer */}
-            <footer className="py-12 px-4 bg-background border-t border-border">
-                <div className="container mx-auto text-center text-muted-foreground">
-                    <p>&copy; 2024 AR Workout. All rights reserved.</p>
-                </div>
-            </footer>
         </div>
     );
 }
