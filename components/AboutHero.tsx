@@ -15,7 +15,7 @@ export default function AboutHeroSection() {
                 viewport={{ once: true }}
                 className="text-4xl md:text-5xl font-extrabold text-gray-900 text-center mb-6"
             >
-                Here's who we are <br /> & what our gym is about
+                Here's who we are <br /> & what our app is about
             </motion.h1>
 
             {/* === BUTTON === */}
@@ -41,16 +41,18 @@ export default function AboutHeroSection() {
                     className="text-black p-10 rounded-3xl shadow-lg bg-gradient-to-r from-blue-50 to-white"
                 >
                     <h2 className="text-2xl font-semibold mb-4">
-                        So you know about <span className="text-black">FitLife Gym</span> — but what about the
-                        team behind it?
+                        You know the workouts, but what about the team behind <span className="text-red-700">REPZ</span>?
                     </h2>
+
                     <p className="text-gray-800 leading-relaxed">
-                        Meet the passionate trainers, developers, and fitness lovers who
-                        made this platform possible. Our team’s goal is to help you stay
-                        motivated, healthy, and inspired.
+                        Meet the innovators, fitness experts, and creators building the future of
+                        training. From powerful workout tracking to immersive AR guidance, our team
+                        is dedicated to helping both gym users and trainers train smarter, safer,
+                        and stronger.
                     </p>
+
                     <p className="mt-10 text-center text-black font-semibold text-lg">
-                        #TeamFitLife 💪
+                        #TeamRepz ✨
                     </p>
                 </motion.div>
 

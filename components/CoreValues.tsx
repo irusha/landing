@@ -14,44 +14,44 @@ export interface ValueItem {
 const VALUES: ValueItem[] = [
     {
         icon: <Target size={28} className="text-blue-600" />,
-        title: "Excellence",
+        title: "Smart Training",
         description:
-            "We strive for excellence in every aspect of our service, from cutting-edge equipment to expert guidance.",
+            "We empower users and trainers with data-driven insights and AR-powered workout guidance for more effective results.",
         bg: "bg-blue-100",
     },
     {
         icon: <Heart size={28} className="text-red-500" />,
-        title: "Community",
+        title: "Stronger Together",
         description:
-            "Building a supportive community where everyone feels welcome, motivated, and inspired.",
+            "Repz builds a connected fitness ecosystem where gym users and trainers collaborate, motivate, and grow as a community.",
         bg: "bg-red-100",
     },
     {
         icon: <Lightbulb size={28} className="text-yellow-500" />,
-        title: "Innovation",
+        title: "Innovation First",
         description:
-            "Constantly evolving our methods and technology to provide the best fitness experience.",
+            "We push boundaries with cutting-edge AR technology, redefining how workouts are learned, tracked, and experienced.",
         bg: "bg-yellow-100",
     },
     {
         icon: <Shield size={28} className="text-green-600" />,
-        title: "Safety First",
+        title: "Safe & Guided",
         description:
-            "Your safety and well-being are our top priorities in everything we do.",
+            "With real-time AR form guidance and trainer oversight, we ensure every rep is safe, accurate, and injury-free.",
         bg: "bg-green-100",
     },
     {
         icon: <Globe size={28} className="text-purple-600" />,
-        title: "Inclusivity",
+        title: "Accessible Fitness",
         description:
-            "Creating an inclusive environment where everyone can achieve their fitness goals.",
+            "Repz makes expert-level training accessible to everyone—any level, any background, any fitness journey.",
         bg: "bg-purple-100",
     },
     {
         icon: <Trophy size={28} className="text-orange-500" />,
-        title: "Results",
+        title: "Real Progress",
         description:
-            "Committed to helping you achieve measurable, sustainable results that last.",
+            "Our mission is simple: help you achieve consistent, measurable progress through intelligent tracking and personalized plans.",
         bg: "bg-orange-100",
     },
 ];

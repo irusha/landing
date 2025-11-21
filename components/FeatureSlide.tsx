@@ -26,7 +26,8 @@ export default function FeatureSlide({
             } shadow-sm`}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            whileHover={{ scale: 1.015, boxShadow: "0px 8px 200px rgba(0,0,0,0.05)" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             viewport={{ once: true }}
         >
 

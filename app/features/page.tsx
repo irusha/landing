@@ -5,7 +5,7 @@ import {
     Sprout,
     Clock,
     BarChart,
-    CheckCircle
+    CheckCircle, Smile, UsersRound
 } from "lucide-react";
 import ServiceCards from "@/components/ServiceCards";
 import FeatureSlide from "@/components/FeatureSlide";
@@ -97,20 +97,19 @@ export default function FeaturesPage() {
         {
             title: "Using the Latest Technology",
             description: "Our app uses the latest technology available in the industry.",
-            icon: <Cpu className="w-10 h-10 text-gray-700" />,
+            icon: <Cpu className="w-15 h-15 text-gray-700" />,
         },
         {
             title: "Friendly Experience",
             description:
                 "Our design is built to be fun and easy to use, making your journey smooth and enjoyable.",
-            image:
-                "https://cdn-icons-png.flaticon.com/512/4712/4712026.png",
+            icon: <UsersRound className="w-10 h-10 text-gray-700" />,
         },
         {
             title: "Based on Research",
             description:
                 "Our app is built on research and developed with the help of experts to ensure effectiveness.",
-            icon: <Search className="w-10 h-10 text-gray-700" />,
+            icon: <Search className="w-15 h-15 text-gray-700" />,
         },
     ];
 
@@ -147,9 +146,9 @@ export default function FeaturesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.6 }}
                 >
-                    Discover comprehensive fitness programs designed by experts to help you
-                    achieve your goals. From personal training to group classes, we have
-                    everything you need for your fitness journey.
+                    Discover smart, interactive training programs crafted by expert trainers to help you reach your goals. With AR-guided workouts,
+                    personalized plans, and seamless trainer collaboration,
+                    Repz gives you everything you need to level up your fitness journey.
                 </motion.p>
             </motion.div>
 
@@ -177,14 +176,6 @@ export default function FeaturesPage() {
                     >
                         {card.icon && <div className="mb-4">{card.icon}</div>}
 
-                        {card.image && (
-                            <img
-                                src={card.image}
-                                alt={card.title}
-                                className="w-40 h-40 object-contain mb-4"
-                            />
-                        )}
-
                         <h3 className="text-xl font-bold text-gray-800 mb-2">{card.title}</h3>
                         <p className="text-gray-500 text-sm max-w-xs">{card.description}</p>
                     </motion.div>
@@ -194,22 +185,22 @@ export default function FeaturesPage() {
             {/* Updated ServiceCards Component - No filters passed */}
             <ServiceCards cards={serviceCardsData} />
             {/* Section Title Before Slides */}
-            <h2 className="w-full max-w-6xl mx-auto text-3xl font-bold mb-6">
-                More Smart Features
+            <h2 className="w-full max-w-6xl mx-auto mb-4 md:mb-8 text-2xl md:text-5xl font-bold">
+                Connect, Train, and Achieve Together
             </h2>
             {/* Additional slides */}
             <div className="gap-6 mb-10 w-full mx-auto flex flex-col md:flex-row items-center justify-center">
                 <FeatureSlide
-                    subtitle="VoxBuddy"
-                    title="Ask Anything from lengthy documents"
-                    description="Chat with VoxBuddy, your supportive AI-powered companion."
+                    subtitle="AR Form Assistant"
+                    title="Train Safely With Real-Time Guidance"
+                    description="Repz uses augmented reality overlays to help you perfect your form, avoid injuries, and perform every rep with confidence."
                     image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1470"
                 />
 
                 <FeatureSlide
-                    subtitle="SmartRead"
-                    title="Ask Anything from lengthy documents"
-                    description="let SmartRead summarize them documents easy-to-understand insights."
+                    subtitle="Trainer Control Hub"
+                    title="Empower Trainers With Better Tools"
+                    description="Trainers can manage clients, assign customized plans, monitor performance, and stay connected."
                     image="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1470"
                     reverse
                 />

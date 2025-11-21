@@ -19,47 +19,37 @@ export default function AboutPage() {
                             <Timeline
                                 items={[
                                     {
-                                        day: "08",
-                                        year: "2008",
-                                        title: "FitPro Founded",
+                                        day: "01",
+                                        year: "September",
+                                        title: "REPZ Founded",
                                         description:
-                                            "Started as a small neighborhood gym with a vision to make fitness accessible to everyone.",
+                                            "Repz began as a simple but powerful idea — helping gym users and trainers connect, collaborate, and train smarter using the latest AR technology.",
                                         image: "/images/gym1.jpg",
                                     },
                                     {
-                                        day: "12",
-                                        year: "2012",
-                                        title: "First Expansion",
+                                        day: "02",
+                                        year: "October",
+                                        title: "Design Finalized",
                                         description:
-                                            "Doubled our space and added group fitness classes due to growing member demand.",
+                                            "Completed the final app design with polished interfaces and a seamless user experience for both trainers and gym members.",
                                         image: "/images/gym2.jpg",
                                     },
                                     {
-                                        day: "16",
-                                        year: "2016",
-                                        title: "Technology Integration",
+                                        day: "03",
+                                        year: "December",
+                                        title: "Website Launched",
                                         description:
-                                            "Introduced smart equipment and a mobile app for seamless member experience.",
+                                            "Launched the official Repz website, introducing our mission and platform to the fitness community.",
                                         image: "/images/gym3.jpg",
                                     },
-                                ]}
+                                ]
+                            }
                             />
                         ),
                     },
                     {
                         label: "Values",
                         content: <CoreValues />,
-                    },
-                    {
-                        label: "Facilities",
-                        content: (
-                            <div>
-                                <h2 className="text-2xl font-semibold mb-4">Facilities</h2>
-                                <p className="text-gray-700">
-                                    Modern equipment, spacious workout zones, fitness classes, and more.
-                                </p>
-                            </div>
-                        ),
                     },
                     {
                         label: "Leadership",
