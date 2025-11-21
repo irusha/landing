@@ -1,3 +1,4 @@
+/*
 import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 
@@ -31,3 +32,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json({ success: false, error: err.message });
     }
 }
+*/
