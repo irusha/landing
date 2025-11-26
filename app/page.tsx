@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import PhoneMockup from "@/components/PhoneMockup";
 import {Dumbbell, Sparkles, Users, Zap} from "lucide-react";
 import FitnessHero from "@/app/Hero";
-import ScrollSlideshow from "@/app/MobileView";
 import ScrollControlledSlideshow from "@/app/MobileView";
 
 export default function Home() {
@@ -146,7 +144,7 @@ export default function Home() {
                     <div className="grid md:grid-cols-3 gap-8">
                         <div className="p-8 rounded-2xl bg-card border border-border hover:border-primary transition-colors animate-fade-in">
                             <div className="w-14 h-14 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                                <Dumbbell className="text-white" size={28} />
+                                <Dumbbell className="text-black" size={28} />
                             </div>
                             <h3 className="text-2xl font-bold mb-3">Smart Form Tracking</h3>
                             <p className="text-muted-foreground">
@@ -159,7 +157,7 @@ export default function Home() {
                             style={{ animationDelay: "0.1s" }}
                         >
                             <div className="w-14 h-14 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                                <Zap className="text-white" size={28} />
+                                <Zap className="text-black" size={28} />
                             </div>
                             <h3 className="text-2xl font-bold mb-3">Adaptive Workouts</h3>
                             <p className="text-muted-foreground">
@@ -172,7 +170,7 @@ export default function Home() {
                             style={{ animationDelay: "0.2s" }}
                         >
                             <div className="w-14 h-14 rounded-full bg-gradient-primary flex items-center justify-center mb-4">
-                                <Users className="text-white" size={28} />
+                                <Users className="text-black" size={28} />
                             </div>
                             <h3 className="text-2xl font-bold mb-3">Community Driven</h3>
                             <p className="text-muted-foreground">

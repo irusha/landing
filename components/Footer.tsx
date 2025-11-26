@@ -1,4 +1,5 @@
-import { Facebook, Twitter, Instagram, Youtube, Mail, MapPin, Phone } from 'lucide-react';
+import {Mail, MapPin, Phone} from 'lucide-react';
+import {SiFacebook, SiInstagram, SiX, SiYoutube} from '@icons-pack/react-simple-icons';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -25,10 +26,10 @@ export default function Footer() {
     };
 
     const socialLinks = [
-        { name: 'Facebook', icon: Facebook, href: '#', color: 'hover:text-blue-500' },
-        { name: 'Twitter', icon: Twitter, href: '#', color: 'hover:text-sky-400' },
-        { name: 'Instagram', icon: Instagram, href: '#', color: 'hover:text-pink-500' },
-        { name: 'Youtube', icon: Youtube, href: '#', color: 'hover:text-red-500' }
+        { name: 'Facebook', icon: SiFacebook, href: '#', color: 'hover:text-blue-500' },
+        { name: 'X', icon: SiX, href: '#', color: 'hover:text-sky-400' },
+        { name: 'Instagram', icon: SiInstagram, href: '#', color: 'hover:text-pink-500' },
+        { name: 'Youtube', icon: SiYoutube, href: '#', color: 'hover:text-red-500' }
     ];
 
     return (
@@ -51,17 +52,17 @@ export default function Footer() {
                         <div className="space-y-3 text-sm text-slate-400">
                             <div className="flex items-center gap-2">
                                 <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                                <a href="mailto:info@repzar.com" className="hover:text-blue-400 transition-colors">
-                                    info@repzar.com
+                                <a href="mailto:info@repz.lk" className="hover:text-blue-400 transition-colors">
+                                    info@repz.lk
                                 </a>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                                <span>+1 (555) 123-4567</span>
+                                <span>+94 112 123456</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                                <span>San Francisco, CA</span>
+                                <span>Colombo, LK</span>
                             </div>
                         </div>
                     </div>
