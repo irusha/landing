@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {Dumbbell, Sparkles, Users, Zap} from "lucide-react";
 import FitnessHero from "@/app/Hero";
-import MobileView from "@/app/MobileView";
+import MobileView from "@/components/MobileView";
 import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function Home() {
@@ -36,7 +36,6 @@ export default function Home() {
             if (hasReachedMax.current) return;
 
             const next = MIN +  (MAX-MIN) * value * 5;
-            console.log("Smooth Progress:", value.toFixed(2), "-> Width:", next.toFixed(2));
 
             setFeatureWidth(next);
 
@@ -58,10 +57,10 @@ export default function Home() {
             {/* Hero Section */}
             <FitnessHero/>
             <MobileView images={[
-                "https://picsum.photos/seed/100/1920/1080",
-                "https://picsum.photos/seed/200/1920/1080",
-                "https://picsum.photos/seed/300/1920/1080",
-                "https://picsum.photos/seed/400/1920/1080",
+                "/images/screens/SplashScreen.png",
+                "/images/screens/ChallengesScreen.png",
+                "/images/screens/StatsScreen.png",
+                "/images/screens/WorkoutBuilderScreen.png",
             ]}
                         height={"calc(100vh - 4rem)"}/>
 
