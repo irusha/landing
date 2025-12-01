@@ -3,140 +3,77 @@
 import React, { useEffect, useRef, useState } from "react";
 import {Dumbbell, Sparkles, Users, Zap} from "lucide-react";
 import FitnessHero from "@/app/Hero";
-import ScrollControlledSlideshow from "@/app/MobileView";
+import MobileView from "@/components/MobileView";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function Home() {
     const [phoneScreen, setPhoneScreen] = useState(0); // 0..2
-    const phoneContainerRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
-    const isPhoneInView = () => {
-        if (!phoneContainerRef.current) return false;
-        const rect = phoneContainerRef.current.getBoundingClientRect();
-        return rect.top + (window.innerHeight - 200) < window.innerHeight && rect.bottom > 0;
-    };
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        // 0 when the top of the section hits 90% of the viewport (almost bottom)
+        // 1 when the bottom hits 10% of the viewport (almost top)
+        offset: ["start 0.9", "end 0.2"],
+    });
+
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 80,
+        damping: 20,
+        mass: 0.2,
+    });
+
+    // width in %, between 60% and 100%
+    const [featureWidth, setFeatureWidth] = useState(80);
+    const lastProgress = useRef(0);
+    const hasReachedMax = useRef(false);
 
     useEffect(() => {
-        let accDelta = 0;
-        let raf: number | null = null;
-        const SENSITIVITY = 0.003; // Base sensitivity for wheel
-        const TOUCH_SENSITIVITY = 0.005; // Base sensitivity for touch
-        const MAX_STEP = 0.4; // Limit per event to avoid skipping screens on fast flicks
-        const MAX_SCREEN = 2;
-        const MIN_SCREEN = 0;
+        const MIN = 80;
+        const MAX = 100;
 
-        const clamp = (v: number) => Math.max(MIN_SCREEN, Math.min(MAX_SCREEN, v));
+        const unsubscribe = smoothProgress.on("change", (value) => {
+            if (hasReachedMax.current) return;
 
-        const onWheel = (e: WheelEvent) => {
-            if (!phoneContainerRef.current) return;
+            const next = MIN +  (MAX-MIN) * value * 5;
 
-            const isInView = isPhoneInView();
-            if (!isInView) return;
+            setFeatureWidth(next);
 
-            // Compress very large deltas so fast flicks don't jump multiple screens
-            let raw = e.deltaY * SENSITIVITY;
-            const delta = Math.max(-MAX_STEP, Math.min(MAX_STEP, raw));
-            const prospective = clamp(phoneScreen + delta); // value after this wheel
-
-            const isScrollingUp = delta < 0;
-            const isScrollingDown = delta > 0;
-            // Use prospective value for boundary detection + tolerance
-            const TOL = 0.001;
-            const isAtUpperLimit = prospective >= (MAX_SCREEN - TOL) && isScrollingDown;
-            const isAtLowerLimit = prospective <= (MIN_SCREEN + TOL) && isScrollingUp;
-
-            // Allow native page scroll if this event would hit a boundary
-            if (!isAtUpperLimit && !isAtLowerLimit) {
-                e.preventDefault();
+            // if width is basically max, lock it
+            if (next >= MAX - 0.5) {
+                hasReachedMax.current = true;
+                setFeatureWidth(MAX);
             }
-
-            accDelta += delta;
-
-            if (!raf) {
-                raf = requestAnimationFrame(() => {
-                    setPhoneScreen(prev => {
-                        const nextVal = clamp(prev + accDelta);
-                        accDelta = 0;
-                        raf = null;
-                        return nextVal;
-                    });
-                });
-            }
-        };
-
-        let lastTouchY = 0;
-        const onTouchStart = (e: TouchEvent) => {
-            if (e.touches.length > 0) lastTouchY = e.touches[0].clientY;
-        };
-
-        const onTouchMove = (e: TouchEvent) => {
-            if (!phoneContainerRef.current || e.touches.length === 0) return;
-            const isInView = isPhoneInView();
-            if (!isInView) return;
-
-            const y = e.touches[0].clientY;
-            let raw = (lastTouchY - y) * TOUCH_SENSITIVITY;
-            // Apply same per-event cap for touch gestures
-            const delta = Math.max(-MAX_STEP, Math.min(MAX_STEP, raw));
-            lastTouchY = y;
-            const prospective = clamp(phoneScreen + delta);
-            const isScrollingUp = delta > 0; // upward swipe increases screen
-            const isScrollingDown = delta < 0;
-            const TOL = 0.001;
-            const isAtUpperLimit = prospective >= (MAX_SCREEN - TOL) && isScrollingUp; // note direction logic for touch (delta > 0 moves forward)
-            const isAtLowerLimit = prospective <= (MIN_SCREEN + TOL) && isScrollingDown;
-
-            // Only prevent default while transitioning internally
-            if (!isAtUpperLimit && !isAtLowerLimit) {
-                e.preventDefault();
-            }
-
-            accDelta += delta;
-            if (!raf) {
-                raf = requestAnimationFrame(() => {
-                    setPhoneScreen(prev => {
-                        const nextVal = clamp(prev + accDelta);
-                        accDelta = 0;
-                        raf = null;
-                        return nextVal;
-                    });
-                });
-            }
-        };
-
-        window.addEventListener("wheel", onWheel, { passive: false });
-        window.addEventListener("touchstart", onTouchStart, { passive: true }); // passive: true for touchstart is generally recommended
-        window.addEventListener("touchmove", onTouchMove, { passive: false });
+        });
 
         return () => {
-            window.removeEventListener("wheel", onWheel);
-            window.removeEventListener("touchstart", onTouchStart);
-            window.removeEventListener("touchmove", onTouchMove);
-            if (raf) cancelAnimationFrame(raf);
+            unsubscribe();
         };
-    }, [phoneScreen]); // 💡Crucial: phoneScreen must be in the dependency array
+    }, [smoothProgress]);
+
 
     return (
         <div className="min-h-screen bg-gradient-hero">
             {/* Hero Section */}
             <FitnessHero/>
-            <ScrollControlledSlideshow images={[
-                "https://picsum.photos/seed/100/1920/1080",
-                "https://picsum.photos/seed/200/1920/1080",
-                "https://picsum.photos/seed/300/1920/1080",
-                "https://picsum.photos/seed/400/1920/1080",
+            <MobileView images={[
+                "/images/screens/SplashScreen.png",
+                "/images/screens/ChallengesScreen.png",
+                "/images/screens/StatsScreen.png",
+                "/images/screens/WorkoutBuilderScreen.png",
             ]}
-            height={"calc(100vh - 4rem)"}/>
-            {/* Phone Section */}
-            <section ref={phoneContainerRef} className="flex justify-center items-center py-20">
-                <div className="sticky top-20">
-                    {/*<PhoneMockup screenIndex={phoneScreen} />*/}
-                </div>
-            </section>
-
+                        height={"calc(100vh - 4rem)"}/>
 
             {/* Features Section */}
-            <section className="py-24 px-4 bg-background">
-                <div className="container mx-auto">
+            <section className="py-24 px-4 bg-background" >
+                <motion.div
+                    ref={containerRef}
+                    className="my-1 bg-black text-white p-10 rounded-4xl"
+                    style={{
+                        width: `${featureWidth}%`,  // animated width
+                        margin: "0 auto",           // center the box
+                    }}
+                >
                     <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 animate-fade-in">
                         Why Choose AR Workout
                     </h2>
@@ -178,21 +115,7 @@ export default function Home() {
                             </p>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-24 px-4 bg-gradient-primary  relative overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden opacity-10">
-                    <div className="absolute -top-24 -left-24 w-96 h-96 border-2 border-white rounded-full" />
-                    <div className="absolute -bottom-24 -right-24 w-96 h-96 border-2 border-white rounded-full" />
-                </div>
-
-                <div className="container mx-auto text-center relative z-10">
-                    <Sparkles className="mx-auto mb-6" size={48} />
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">Start Your AR Fitness Journey</h2>
-                    <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">Download now and get 7 days of premium features completely free. No credit card required.</p>
-                </div>
+                </motion.div>
             </section>
         </div>
     );

@@ -2,8 +2,12 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import React from "react";
 import Footer from "@/components/Footer";
+import { Inter } from 'next/font/google';
+import type { Metadata } from 'next';
 
-export const metadata = {
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
     title: 'REPZ',
     description: 'Fitness website',
 };
@@ -11,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-        <body className="font-sans">
+        <body className={inter.className}>
         <Navbar />
         <main>{children}</main>
         <Footer />
