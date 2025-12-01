@@ -114,7 +114,7 @@ export default function FeaturesPage() {
     ];
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-100 to-white text-center px-6 py-10 text-gray-800">
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-100 to-white text-center px-6 py-20 text-gray-800">
             {/* Top section */}
             <motion.div
                 className="max-w-2xl mb-8"

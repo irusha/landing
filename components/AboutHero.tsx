@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function AboutHeroSection() {
     return (
-        <section className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-6 py-16 flex flex-col items-center">
+        <section className="pt-24 min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col items-center">
 
             {/* === MAIN TITLE === */}
             <motion.h1
