@@ -25,7 +25,7 @@ export default function FitnessHero() {
             <ShaderAnimation/>
             <span
                 className="absolute pointer-events-none z-10 text-center text-7xl leading-none font-semibold tracking-tighter whitespace-pre-wrap text-white">
-        Shader Animation
+        Workouts Reimagined
       </span>
         </div>
         // <div className="w-full min-h-[calc(100vh-4rem)] bg-white flex flex-col lg:flex-row items-center justify-between px-6 lg:px-20 py-12 lg:py-20 gap-10">

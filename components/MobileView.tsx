@@ -10,15 +10,23 @@ import {
     useSpring,
     useTransform
 } from "framer-motion";
-import Image from "next/image";
+import Image, {StaticImageData} from "next/image";
 
 interface SlideshowProps {
     images?: string[];
     height?: string | number;
 }
 
+type Props = {
+    imageSet: (string | StaticImageData)[];
+    activeStage: number;
+    // optional: if you want to sync fade duration with something
+    // smoothProgress?: MotionValue<number>;
+};
+
 interface TextBlock {
     id: string;
+    eyebrow: string;
     title: string;
     body: string;
     className: string;
@@ -33,10 +41,10 @@ interface CaptionBlock {
 }
 
 const STAGE_RANGES: Array<[number, number]> = [
-    [0, 0.25], // splash
-    [0.25, 0.5], // text left / phone right
-    [0.5, 0.75], // text right / phone left
-    [0.75, 1], // phone center with surrounding text
+    [0, 0.20], // splash
+    [0.20, 0.42], // text left / phone right
+    [0.42, 0.8], // text right / phone left
+    [0.8, 1], // phone center with surrounding text
 ];
 
 const fallbackImages = [
@@ -49,6 +57,7 @@ const fallbackImages = [
 const TEXT_BLOCKS: TextBlock[] = [
     {
         id: "splash",
+        eyebrow: "Placeholder Copy",
         title: "Placeholder Splash",
         body: "Introduce the concept with a short line of copy that feels like a launch moment.",
         className: "hidden md:block absolute left-1/2 bottom-12 -translate-x-1/2 text-center max-w-xl",
@@ -56,6 +65,7 @@ const TEXT_BLOCKS: TextBlock[] = [
     },
     {
         id: "left-feature",
+        eyebrow: "Placeholder Copy",
         title: "Left Aligned Placeholder",
         body: "Describe a feature while the phone glides to the right. Keep it brief and scannable.",
         className: "hidden md:block absolute left-10 md:left-20 top-1/3 max-w-sm text-left",
@@ -63,6 +73,7 @@ const TEXT_BLOCKS: TextBlock[] = [
     },
     {
         id: "right-feature",
+        eyebrow: "Placeholder Copy",
         title: "Right Aligned Placeholder",
         body: "Mirror the treatment with copy anchored to the right edge, giving focus to another detail.",
         className: "hidden md:block absolute right-10 md:right-20 top-1/3 max-w-sm text-right",
@@ -70,6 +81,7 @@ const TEXT_BLOCKS: TextBlock[] = [
     },
     {
         id: "final-top",
+        eyebrow: "Placeholder Copy",
         title: "Surround Title",
         body: "Placeholders can live above the phone, hinting at supporting context.",
         className: "hidden md:block absolute left-14 md:left-28 top-12 max-w-xs text-left",
@@ -77,6 +89,7 @@ const TEXT_BLOCKS: TextBlock[] = [
     },
     {
         id: "final-bottom",
+        eyebrow: "Placeholder Copy",
         title: "Supporting Placeholder",
         body: "Add another short line near the bottom to complete the wraparound treatment.",
         className: "hidden md:block absolute right-12 md:right-28 bottom-12 max-w-xs text-right",
@@ -133,6 +146,80 @@ const ScrollControlledSlideshow = ({images: _images, height = "100vh"}: Slidesho
     const trackHeight = useMemo(() => `calc(${normalizedHeight} * ${STAGE_RANGES.length})`, [normalizedHeight]);
     const imageSet = useMemo(() => ensureImageSet(_images), [_images]);
     const [isMobile, setIsMobile] = useState(false);
+    // keep the previous image around so we can fade it out
+    const [prevSrc, setPrevSrc] = useState<(string | StaticImageData) | null>(null);
+    // Track "current shown" so prevSrc is correct
+    const [currentSrc, setCurrentSrc] = useState<(string | StaticImageData)>("/");
+
+    function PhoneScreenCrossfade({ imageSet, activeStage }: Props) {
+        const nextSrc = imageSet[activeStage];
+
+        useEffect(() => {
+            // whenever stage changes, the current image becomes "previous"
+            setPrevSrc((currentPrev) => {
+                // if we're switching to a new src, make the old "next" the previous
+                // easiest is: prev becomes whatever was shown before the update
+                // but since we don't track "current", we can just store the old next via closure:
+                return currentPrev; // placeholder; we set prev properly below
+            });
+        }, []);
+
+
+        useEffect(() => {
+            if (nextSrc === currentSrc) return;
+            setPrevSrc(currentSrc);
+            setCurrentSrc(nextSrc);
+        }, [nextSrc, currentSrc]);
+
+        return (
+            <div className="relative w-full h-full overflow-hidden">
+                {/* Previous image (fades out) */}
+                <AnimatePresence initial={false}>
+                    {prevSrc && (
+                        <motion.div
+                            key={`prev-${String(prevSrc)}`}
+                            className="absolute inset-0"
+                            initial={{ opacity: 1 }}
+                            animate={{ opacity: 0 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            onAnimationComplete={() => {
+                                // once faded out, drop it from DOM
+                                setPrevSrc(null);
+                            }}
+                        >
+                            <Image
+                                src={prevSrc}
+                                alt="Previous phone screen"
+                                width={260}
+                                height={500}
+                                className="w-full h-full object-cover"
+                                priority
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Current image (fades in) */}
+                <motion.div
+                    key={`cur-${String(currentSrc)}`}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                    <Image
+                        src={currentSrc}
+                        alt="Phone screen"
+                        width={260}
+                        height={500}
+                        className="w-full h-full object-cover"
+                        priority
+                    />
+                </motion.div>
+            </div>
+        );
+    }
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -156,13 +243,18 @@ const ScrollControlledSlideshow = ({images: _images, height = "100vh"}: Slidesho
 
     const [activeStage, setActiveStage] = useState(0);
 
+    let prevActiveStage = -1
+
     useMotionValueEvent(smoothProgress, "change", latest => {
         const clamped = Math.max(0, Math.min(0.9999, latest));
         let resolvedStage = 0;
         STAGE_RANGES.forEach(([start], idx) => {
             if (clamped >= start) resolvedStage = idx;
         });
-        setActiveStage(resolvedStage);
+        if (resolvedStage !== prevActiveStage) {
+            setActiveStage(resolvedStage);
+            prevActiveStage = resolvedStage;
+        }
     });
 
     const phoneTranslateX = useTransform(
@@ -183,51 +275,15 @@ const ScrollControlledSlideshow = ({images: _images, height = "100vh"}: Slidesho
     const mobileCaption = CAPTION_CONTENT[activeStage] ?? CAPTION_CONTENT[0];
 
     const renderPhoneScreen = () => {
-        const stageImage = imageSet[activeStage];
-        if (activeStage === 0) {
-            return (
-                <Image
-                    src={stageImage}
-                    alt={"Splash image of the mobile mock"}
-                    width={260}
-                    height={500}
-                    className="w-full h-full object-cover"
-                />
-            );
-        }
-
-        if (activeStage === 1) {
-            return (
-                <Image
-                    src={stageImage}
-                    alt={"Splash image of the mobile mock"}
-                    width={260}
-                    height={500}
-                    className="w-full h-full object-cover"
-                />
-            );
-        }
-
-        if (activeStage === 2) {
-            return (
-                <Image
-                    src={stageImage}
-                    alt={"Splash image of the mobile mock"}
-                    width={260}
-                    height={500}
-                    className="w-full h-full object-cover"
-                />
-            );
-        }
-
+        // Prevent repeatedly rendering PhoneScreenCrossfade
         return (
-            <Image
-                src={stageImage}
-                alt={"Splash image of the mobile mock"}
-                width={260}
-                height={500}
-                className="w-full h-full object-cover"
-            />
+            imageSet.length - 1 == activeStage && smoothProgress['current'] == 1 ?
+                <Image src={imageSet[activeStage]}
+                       alt="Previous phone screen"
+                       width={260}
+                       height={500}
+                       className="w-full h-full object-cover"/>
+                : <PhoneScreenCrossfade imageSet={imageSet} activeStage={activeStage} />
         );
     };
 
@@ -244,7 +300,7 @@ const ScrollControlledSlideshow = ({images: _images, height = "100vh"}: Slidesho
                                 style={{opacity}}
                                 className={`${block.className} text-balance`}
                             >
-                                <p className="text-sm uppercase tracking-[0.4em] text-slate-400">Placeholder Copy</p>
+                                <p className="text-sm uppercase tracking-[0.4em] text-slate-400">{block.eyebrow}</p>
                                 <h3 className="text-3xl font-semibold text-slate-900">{block.title}</h3>
                                 <p className="mt-3 text-base text-slate-500">{block.body}</p>
                             </motion.div>
@@ -275,7 +331,7 @@ const ScrollControlledSlideshow = ({images: _images, height = "100vh"}: Slidesho
                         <div
                             className="absolute left-1/2 top-0 md:h-8 md:w-40 h-7 w-28 -translate-x-1/2 rounded-b-[32px] bg-slate-900 z-10"/>
                         <div className="absolute inset-2 rounded-[32px] bg-slate-900 overflow-hidden">
-                            <div className={"rounded-[32px] overflow-hidden"}>
+                            <div className={"rounded-[32px] overflow-hidden h-full"}>
                                 {renderPhoneScreen()}
                             </div>
                         </div>

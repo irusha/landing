@@ -58,9 +58,9 @@ export default function Home() {
             <FitnessHero/>
             <MobileView images={[
                 "/images/screens/SplashScreen.png",
-                "/images/screens/ChallengesScreen.png",
-                "/images/screens/StatsScreen.png",
                 "/images/screens/WorkoutBuilderScreen.png",
+                "/images/screens/StatsScreen.png",
+                "/images/screens/ChallengesScreen.png",
             ]}
                         height={"calc(100vh - 4rem)"}/>
 
