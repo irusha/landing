@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function AboutHeroSection() {
     return (
-        <section className="pt-24 min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col items-center">
+        <section className="pt-24 min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex flex-col items-center">
 
             {/* === MAIN TITLE === */}
             <motion.h1
@@ -13,7 +13,7 @@ export default function AboutHeroSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="text-4xl md:text-5xl font-extrabold text-gray-900 text-center mb-6"
+                className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-gray-100 text-center mb-6"
             >
                 Here's who we are <br /> & what our app is about
             </motion.h1>
@@ -24,7 +24,16 @@ export default function AboutHeroSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="mb-16 px-6 py-3 bg-[#CFF500] hover:bg-[#b8e000] text-black font-medium rounded-full shadow hover:shadow-lg transition-all"
+                className="mb-16 px-6 py-3 text-black dark:text-black font-medium rounded-full shadow hover:shadow-lg transition-all"
+                style={{
+                    backgroundColor: "hsl(var(--color-brand-accent))"
+                }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "hsl(var(--color-brand-accent-hover))";
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "hsl(var(--color-brand-accent))";
+                }}
             >
                 ✨ Get to know more about us
             </motion.button>
@@ -38,20 +47,20 @@ export default function AboutHeroSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.7 }}
                     viewport={{ once: true }}
-                    className="text-black p-10 rounded-3xl shadow-lg bg-gradient-to-r from-blue-50 to-white"
+                    className="p-10 rounded-3xl shadow-lg bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-700"
                 >
-                    <h2 className="text-2xl font-semibold mb-4">
-                        You know the workouts, but what about the team behind <span className="text-red-700">REPZ</span>?
+                    <h2 className="text-2xl font-semibold mb-4 text-foreground">
+                        You know the workouts, but what about the team behind <span style={{color: "hsl(var(--color-brand-accent))"}}>REPZ</span>?
                     </h2>
 
-                    <p className="text-gray-800 leading-relaxed">
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
                         Meet the innovators, fitness experts, and creators building the future of
                         training. From powerful workout tracking to immersive AR guidance, our team
                         is dedicated to helping both gym users and trainers train smarter, safer,
                         and stronger.
                     </p>
 
-                    <p className="mt-10 text-center text-black font-semibold text-lg">
+                    <p className="mt-10 text-center text-foreground font-semibold text-lg">
                         #TeamRepz ✨
                     </p>
                 </motion.div>
@@ -62,7 +71,7 @@ export default function AboutHeroSection() {
                     whileInView="visible"
                     viewport={{ once: true }}
                     transition={{ staggerChildren: 0.15 }}
-                    className="bg-gradient-to-r from-white to-blue-50 p-8 rounded-3xl shadow-lg flex flex-wrap justify-center gap-4"
+                    className="bg-gradient-to-r from-white to-blue-50 dark:from-gray-700 dark:to-gray-800 p-8 rounded-3xl shadow-lg flex flex-wrap justify-center gap-4"
                 >
                     {["/team1.jpg", "/team2.jpg", "/team3.jpg", "/team4.jpg"].map((src, idx) => (
                         <motion.div

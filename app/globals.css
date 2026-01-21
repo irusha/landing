@@ -36,6 +36,9 @@ All colors MUST be HSL.
     --color-sidebar-border: 220 13% 91%;
     --color-sidebar-ring: 217.2 91.2% 59.8%;
 
+    --color-brand-accent: 266 100% 71%;
+    --color-brand-accent-hover: 266 100% 65%;
+
     --radius-default: 0.75rem;
 }
 
@@ -45,6 +48,7 @@ All colors MUST be HSL.
         --gradient-hero: linear-gradient(180deg, hsl(220 100% 98%), hsl(195 100% 95%));
         --shadow-glow: 0 0 60px hsl(195 100% 45% / 0.3);
         --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-theme: all 0.3s ease;
     }
 
     .dark {
@@ -75,6 +79,9 @@ All colors MUST be HSL.
         --color-sidebar-accent-foreground: 240 4.8% 95.9%;
         --color-sidebar-border: 240 3.7% 15.9%;
         --color-sidebar-ring: 217.2 91.2% 59.8%;
+
+        --color-brand-accent: 73 100% 76%;
+        --color-brand-accent-hover: 73 100% 70%;
 
         --gradient-primary: linear-gradient(135deg, hsl(195 100% 50%), hsl(220 100% 65%));
         --gradient-hero: linear-gradient(180deg, hsl(222 47% 11%), hsl(222 47% 15%));

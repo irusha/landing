@@ -12,7 +12,7 @@ export default function ARGymHero() {
     <div className="relative w-full h-[850px] overflow-hidden rounded-xl">
       {/* Shader Background */}
       <div className="absolute inset-0">
-        <ShaderAnimation mode="dark" />
+        <ShaderAnimation />
       </div>
 
       {/* Gradient Overlay */}
@@ -29,7 +29,7 @@ export default function ARGymHero() {
           }`}
         >
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-center tracking-tight mb-6">
-            <span className="block bg-gradient-to-r from-[#CFF500] via-[#A0FF00] to-[#CFF500] bg-clip-text text-transparent animate-pulse">
+            <span className="block bg-gradient-to-r from-[hsl(var(--color-brand-accent))] via-[hsl(var(--color-brand-accent-hover))] to-[hsl(var(--color-brand-accent))] bg-clip-text text-transparent animate-pulse">
               AR GYM
             </span>
           </h1>
@@ -45,7 +45,7 @@ export default function ARGymHero() {
         >
           <p className="text-xl sm:text-2xl md:text-3xl text-white/90 text-center max-w-3xl mb-8 font-light">
             Transform your fitness journey with{" "}
-            <span className="font-semibold text-[#CFF500]">
+            <span className="font-semibold" style={{color: "hsl(var(--color-brand-accent))"}}>
               augmented reality
             </span>
             . Train smarter, anywhere.
@@ -65,9 +65,18 @@ export default function ARGymHero() {
               (feature, index) => (
                 <div
                   key={feature}
-                  className="px-6 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-[#CFF500]/30 text-white text-sm hover:bg-[#CFF500]/20 hover:border-[#CFF500]/60 transition-all duration-300 hover:scale-105 cursor-default"
+                  className="px-6 py-2 rounded-full bg-white/10 backdrop-blur-sm border text-white text-sm transition-all duration-300 hover:scale-105 cursor-default"
                   style={{
                     animationDelay: `${index * 100}ms`,
+                    borderColor: "hsl(var(--color-brand-accent) / 0.3)"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "hsl(var(--color-brand-accent) / 0.2)";
+                    e.currentTarget.style.borderColor = "hsl(var(--color-brand-accent) / 0.6)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "";
+                    e.currentTarget.style.borderColor = "hsl(var(--color-brand-accent) / 0.3)";
                   }}
                 >
                   {feature}
@@ -86,9 +95,26 @@ export default function ARGymHero() {
           }`}
         >
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="group relative px-8 py-4 bg-[#CFF500] text-black font-bold text-lg rounded-full overflow-hidden hover:shadow-2xl hover:shadow-[#CFF500]/50 transition-all duration-300 hover:scale-105">
+            <button
+              className="group relative px-8 py-4 text-black dark:text-black font-bold text-lg rounded-full overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105"
+              style={{
+                backgroundColor: "hsl(var(--color-brand-accent))",
+                boxShadow: "0 0 0 0 hsl(var(--color-brand-accent) / 0)"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = "0 25px 50px -12px hsl(var(--color-brand-accent) / 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 0 0 0 hsl(var(--color-brand-accent) / 0)";
+              }}
+            >
               <span className="relative z-10">Start Your Journey</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#CFF500] via-[#E0FF50] to-[#CFF500] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: "linear-gradient(to right, hsl(var(--color-brand-accent)), hsl(var(--color-brand-accent-hover)), hsl(var(--color-brand-accent)))"
+                }}
+              />
             </button>
 
             <button className="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-bold text-lg rounded-full hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all duration-300 hover:scale-105">
@@ -113,7 +139,7 @@ export default function ARGymHero() {
                 key={stat.label}
                 className="text-center hover:scale-110 transition-transform duration-300"
               >
-                <div className="text-3xl sm:text-4xl font-bold text-[#CFF500] mb-1">
+                <div className="text-3xl sm:text-4xl font-bold mb-1" style={{color: "hsl(var(--color-brand-accent))"}}>
                   {stat.value}
                 </div>
                 <div className="text-xs sm:text-sm text-white/60">
@@ -134,13 +160,14 @@ export default function ARGymHero() {
         <div className="flex flex-col items-center gap-2 animate-bounce">
           <span className="text-white/60 text-sm">Scroll to explore</span>
           <svg
-            className="w-6 h-6 text-[#CFF500]"
+            className="w-6 h-6"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            style={{color: "hsl(var(--color-brand-accent))"}}
           >
             <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>

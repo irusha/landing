@@ -2,12 +2,15 @@
 
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
+import { useTheme } from "next-themes"
 
 interface ShaderAnimationProps {
     mode?: "light" | "dark"
 }
 
-export function ShaderAnimation({ mode = "dark" }: ShaderAnimationProps) {
+export function ShaderAnimation({ mode }: ShaderAnimationProps) {
+    const { resolvedTheme } = useTheme()
+    const effectiveMode = mode || (resolvedTheme === "dark" ? "dark" : "light")
     const containerRef = useRef<HTMLDivElement>(null)
     const sceneRef = useRef<{
         camera: THREE.Camera
@@ -67,8 +70,8 @@ export function ShaderAnimation({ mode = "dark" }: ShaderAnimationProps) {
             intensity * 0.424,    // Green
             intensity * 1.0       // Blue
           );
-          // Mix with very light background
-          color = mix(vec3(0.99, 0.99, 1.0), purpleColor, 0.7);
+          // Mix with very light background - lighter and more subtle
+          color = mix(vec3(0.96, 0.96, 0.98), purpleColor, 0.6);
         }
         
         gl_FragColor = vec4(color, 1.0);
@@ -85,7 +88,7 @@ export function ShaderAnimation({ mode = "dark" }: ShaderAnimationProps) {
         const uniforms = {
             time: { type: "f", value: 1.0 },
             resolution: { type: "v2", value: new THREE.Vector2() },
-            isDark: { type: "f", value: mode === "dark" ? 1.0 : 0.0 },
+            isDark: { type: "f", value: effectiveMode === "dark" ? 1.0 : 0.0 },
         }
 
         const material = new THREE.ShaderMaterial({
@@ -154,14 +157,14 @@ export function ShaderAnimation({ mode = "dark" }: ShaderAnimationProps) {
                 material.dispose()
             }
         }
-    }, [mode])
+    }, [effectiveMode, resolvedTheme])
 
     return (
         <div
             ref={containerRef}
             className="w-full h-screen"
             style={{
-                background: mode === "dark" ? "#000" : "#fff",
+                background: effectiveMode === "dark" ? "#000" : "#fff",
                 overflow: "hidden",
             }}
         />
