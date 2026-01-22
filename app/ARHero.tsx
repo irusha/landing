@@ -30,7 +30,7 @@ export default function ARGymHero() {
         >
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-center tracking-tight mb-6">
             <span className="block bg-gradient-to-r from-[hsl(var(--color-brand-accent))] via-[hsl(var(--color-brand-accent-hover))] to-[hsl(var(--color-brand-accent))] bg-clip-text text-transparent animate-pulse">
-              AR GYM
+              Workouts Reimagined
             </span>
           </h1>
         </div>
