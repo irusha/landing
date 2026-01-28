@@ -133,7 +133,7 @@ const Navbar: React.FC = () => {
                             <Image
                                 src={resolvedTheme === 'dark'
                                     ? "/images/repz-high-resolution-logo-transparent.png"
-                                    : "/images/repz-high-resolution-logo-grayscale.png"}
+                                    : "/images/repz-high-resolution-logo-transparent-light.png"}
                                 alt="Repz Logo"
                                 height={32}
                                 width={122}
