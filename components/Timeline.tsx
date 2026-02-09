@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
-export interface TimelineItem {
+interface TimelineItem {
     day: string;
     year: string;
     title: string;
@@ -15,53 +15,88 @@ interface TimelineProps {
     items: TimelineItem[];
 }
 
-const Timeline: React.FC<TimelineProps> = ({ items }) => {
+export default function Timeline({ items }: TimelineProps) {
     return (
-        <section className="w-full max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-14">Our Journey</h2>
+        <div className="relative max-w-5xl mx-auto py-24 px-4">
 
-            <div className="relative border-l border-gray-300 pl-10 space-y-28">
-                {items.map((item, idx) => (
-                    <div key={idx} className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start relative">
+            <h2 className="text-4xl font-bold text-center mb-24">
+                Our Journey
+            </h2>
 
-                        {/* ===== LEFT SIDE (Icon + Text) ===== */}
+            {/* Vertical line */}
+            <div className="absolute left-1/2 top-40 bottom-0 w-px bg-gray-300 hidden md:block" />
+
+            <div className="space-y-32">
+                {items.map((item, index) => {
+                    const isEven = index % 2 === 0;
+
+                    return (
                         <motion.div
-                            initial={{ opacity: 0, x: -40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6 }}
+                            key={index}
+                            initial={{ opacity: 0, y: 60 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.7 }}
                             viewport={{ once: true }}
-                            className="relative pl-8 lg:pl-4"
+                            className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
                         >
-                            {/* Circle */}
-                            <div className="absolute -left-[58px] top-0 w-16 h-16 flex items-center justify-center
-                              bg-black text-white rounded-full text-xl font-bold shadow-lg">
-                                {item.day}
+                            {/* Text */}
+                            <div
+                                className={
+                                    isEven
+                                        ? "md:text-right md:pr-16"
+                                        : "md:text-left md:pl-16 md:order-2"
+                                }
+                            >
+                                <span className="text-sm text-gray-500">
+                                    {item.year}
+                                </span>
+                                <h3 className="text-2xl font-semibold mt-2">
+                                    {item.title}
+                                </h3>
+                                <p className="text-gray-600 mt-4 leading-relaxed">
+                                    {item.description}
+                                </p>
                             </div>
 
-                            <p className="text-sm font-semibold text-gray-500">{item.year}</p>
-                            <h3 className="text-2xl font-bold mt-1">{item.title}</h3>
-                            <p className="text-gray-600 mt-2 leading-relaxed">{item.description}</p>
-                        </motion.div>
+                            {/* Image */}
+                            <div
+                                className={`relative ${
+                                    isEven ? "" : "md:order-1"
+                                }`}
+                            >
+                                <div className="rounded-3xl overflow-hidden shadow-xl">
+                                    <Image
+                                        src={item.image}
+                                        alt={item.title}
+                                        width={600}
+                                        height={400}
+                                        className="w-full h-72 object-cover"
+                                    />
+                                </div>
 
-                        {/* ===== RIGHT SIDE (Image) ===== */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6 }}
-                            viewport={{ once: true }}
-                        >
-                            <img
-                                src={item.image}
-                                alt={item.title}
-                                className="w-full rounded-xl shadow-lg object-cover max-h-[270px]"
-                            />
+                                {/* Dot */}
+                                <div
+                                    className="
+                                        hidden md:flex
+                                        absolute top-1/2 -translate-y-1/2
+                                        w-14 h-14
+                                        rounded-full
+                                        bg-black text-white
+                                        items-center justify-center
+                                        font-bold
+                                    "
+                                    style={{
+                                        left: isEven ? "-3.5rem" : "auto",
+                                        right: isEven ? "auto" : "-3.5rem",
+                                    }}
+                                >
+                                    {item.day}
+                                </div>
+                            </div>
                         </motion.div>
-
-                    </div>
-                ))}
+                    );
+                })}
             </div>
-        </section>
+        </div>
     );
-};
-
-export default Timeline;
+}

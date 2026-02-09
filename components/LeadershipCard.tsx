@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-interface LeaderCardProps {
+export interface LeaderCardProps {
     image: string;
     name: string;
     role: string;
@@ -11,13 +11,13 @@ interface LeaderCardProps {
     skills: string[];
 }
 
-export default function LeaderCard({
-                                       image,
-                                       name,
-                                       role,
-                                       bio,
-                                       skills,
-                                   }: LeaderCardProps) {
+export default function LeadershipCard({
+                                           image,
+                                           name,
+                                           role,
+                                           bio,
+                                           skills,
+                                       }: LeaderCardProps) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -32,14 +32,12 @@ export default function LeaderCard({
                 border border-gray-100
                 hover:shadow-xl
                 transition-all
-                flex flex-col gap-4 sm:gap-6
-                max-w-4xl w-full
+                flex flex-col gap-5
             "
         >
-            {/* TOP SECTION */}
-            <div className="flex items-start gap-4 sm:gap-6">
-                {/* Profile Image */}
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-md flex-shrink-0">
+            {/* Header */}
+            <div className="flex items-center gap-5">
+                <div className="w-24 h-24 rounded-2xl overflow-hidden shadow-md">
                     <Image
                         src={image}
                         alt={name}
@@ -49,34 +47,34 @@ export default function LeaderCard({
                     />
                 </div>
 
-                {/* Name + Role */}
                 <div>
-                    <h3 className="text-xl sm:text-3xl font-bold text-gray-900 leading-tight">
+                    <h3 className="text-2xl font-bold text-gray-900">
                         {name}
                     </h3>
-                    <p className="text-sm sm:text-lg text-gray-600 font-medium mt-1">
+                    <p className="text-gray-600 font-medium">
                         {role}
                     </p>
                 </div>
             </div>
 
-            {/* BIO */}
-            <p className="text-[15px] sm:text-[17px] text-gray-700 leading-relaxed max-w-3xl">
+            {/* Bio */}
+            <p className="text-gray-700 leading-relaxed">
                 {bio}
             </p>
 
-            {/* SKILLS */}
-            <div className="flex flex-wrap gap-2 sm:gap-3 mt-2">
+            {/* Skills */}
+            <div className="flex flex-wrap gap-2">
                 {skills.map((skill, i) => (
                     <span
                         key={i}
                         className="
-                            px-3 py-1.5 sm:px-5 sm:py-2
+                            px-4 py-2
                             bg-gray-100
                             text-gray-700
                             rounded-full
-                            text-xs sm:text-sm font-medium
-                            border shadow-sm
+                            text-sm
+                            font-medium
+                            border
                         "
                     >
                         {skill}
