@@ -3,7 +3,7 @@
 import AboutHeroSection from "@/components/AboutHero";
 import Timeline from "@/components/Timeline";
 import CoreValues from "@/components/CoreValues";
-import LeadershipGrid from "@/components/LeadershipGrid"; // Use the animated grid
+import LeadershipGrid from "@/components/LeadershipGrid";
 
 export default function AboutPage() {
     const leaders = [
@@ -29,7 +29,7 @@ export default function AboutPage() {
             skills: ["Sports Nutrition", "Meal Planning", "Health Coaching"],
         },
         {
-            image: "/images/gym4.jpg",
+            image: "/images/gym1.jpg",
             name: "Emily Davis",
             role: "Wellness Coordinator",
             bio: "Certified yoga and mindfulness instructor promoting holistic wellness.",

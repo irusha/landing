@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-interface LeaderCardProps {
+export interface LeaderCardProps {
     image: string;
     name: string;
     role: string;
@@ -21,8 +21,7 @@ export default function LeadershipCard({
     return (
         <motion.div
             className="
-        bg-white
-        dark:bg-gray-800
+        bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-700
         rounded-3xl
         shadow-lg
         p-6 sm:p-8
