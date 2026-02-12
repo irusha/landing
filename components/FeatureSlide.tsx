@@ -19,18 +19,20 @@ export default function FeatureSlide({
                                      }: FeatureSlideProps) {
     return (
         <motion.section
-            className={`flex flex-col items-center justify-between max-w-6xl w-full mx-auto rounded-3xl ${
+            className={`flex flex-col items-center justify-between max-w-6xl w-full mx-auto rounded-3xl shadow-sm transition ${
                 reverse
-                    ? "flex-col-reverse bg-gradient-to-r from-blue-50 to-white"
-                    : "bg-gradient-to-r from-white to-blue-50"
-            } shadow-sm`}
+                    ? "flex-col-reverse bg-gradient-to-r from-blue-50 to-white dark:from-gray-900 dark:to-gray-950"
+                    : "bg-gradient-to-r from-white to-blue-50 dark:from-gray-950 dark:to-gray-900"
+            }`}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.015, boxShadow: "0px 8px 200px rgba(0,0,0,0.05)" }}
+            whileHover={{
+                scale: 1.015,
+                boxShadow: "0px 8px 200px rgba(0,0,0,0.05)",
+            }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             viewport={{ once: true }}
         >
-
             {/* Text Section */}
             <motion.div
                 className="md:w-3/4 px-4 md:px-4 text-center mt-5 md:mt-20 md:mb-20"
@@ -39,16 +41,17 @@ export default function FeatureSlide({
                 viewport={{ once: true }}
                 variants={{
                     hidden: {},
-                    visible: { transition: { staggerChildren: 0.15 } }
+                    visible: { transition: { staggerChildren: 0.15 } },
                 }}
             >
                 <motion.p
                     variants={{
                         hidden: { opacity: 0, y: 10 },
-                        visible: { opacity: 1, y: 0 }
+                        visible: { opacity: 1, y: 0 },
                     }}
                     transition={{ duration: 0.4 }}
-                    className="text-sm text-blue-600 font-bold md:font-extrabold uppercase tracking-wide mb-2"
+                    className="text-sm font-bold md:font-extrabold uppercase tracking-wide mb-2
+            text-blue-600 dark:text-blue-400"
                 >
                     {subtitle}
                 </motion.p>
@@ -56,10 +59,11 @@ export default function FeatureSlide({
                 <motion.h4
                     variants={{
                         hidden: { opacity: 0, y: 10 },
-                        visible: { opacity: 1, y: 0 }
+                        visible: { opacity: 1, y: 0 },
                     }}
                     transition={{ duration: 0.45 }}
-                    className="text-l md:text-4xl font-semibold leading-snug"
+                    className="text-lg md:text-4xl font-semibold leading-snug
+            text-gray-900 dark:text-white"
                 >
                     {title}
                 </motion.h4>
@@ -67,10 +71,11 @@ export default function FeatureSlide({
                 <motion.p
                     variants={{
                         hidden: { opacity: 0, y: 10 },
-                        visible: { opacity: 1, y: 0 }
+                        visible: { opacity: 1, y: 0 },
                     }}
                     transition={{ duration: 0.5 }}
-                    className="text-sm md:text-xl text-gray-600 leading-relaxed mt-4 mb-4"
+                    className="text-sm md:text-xl leading-relaxed mt-4 mb-4
+            text-gray-600 dark:text-gray-300"
                 >
                     {description}
                 </motion.p>
@@ -87,11 +92,11 @@ export default function FeatureSlide({
                 <img
                     src={image}
                     alt={title}
-                    className={`${
+                    className={`shadow-lg border transition ${
                         reverse
                             ? "rounded-t-2xl md:rounded-b-2xl md:rounded-t-none"
                             : "rounded-b-2xl md:rounded-t-2xl md:rounded-b-none"
-                    } shadow-lg border border-gray-100`}
+                    } border-gray-100 dark:border-gray-800`}
                 />
             </motion.div>
         </motion.section>
