@@ -9,7 +9,7 @@ export default function AboutPage() {
     const leaders = [
         {
             image: "/images/leader1.jpeg",
-            name: "Ishan Paranamana Rodriguez",
+            name: "Ishan Paranamana",
         },
         {
             image: "/images/leader2.jpeg",
