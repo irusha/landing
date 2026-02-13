@@ -67,6 +67,7 @@ export default function ARGymHero() {
           >
             <div className="flex flex-col sm:flex-row gap-4 items-center">
               <button
+                  onClick={() => router.push("/contact")}
                   className="group relative px-8 py-3.5 text-black dark:text-black font-semibold text-base rounded-full overflow-hidden transition-all duration-300 hover:scale-105"
                   style={{
                     backgroundColor: "hsl(var(--color-brand-accent))",
