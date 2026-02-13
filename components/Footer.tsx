@@ -26,10 +26,8 @@ export default function Footer() {
     };
 
     const socialLinks = [
-        { name: 'Facebook', icon: SiFacebook, href: '#', color: 'hover:text-blue-500' },
-        { name: 'X', icon: SiX, href: '#', color: 'hover:text-sky-400' },
-        { name: 'Instagram', icon: SiInstagram, href: '#', color: 'hover:text-pink-500' },
-        { name: 'Youtube', icon: SiYoutube, href: '#', color: 'hover:text-red-500' }
+        { name: 'Facebook', icon: SiFacebook, href: 'https://www.facebook.com/share/1KGFqyEL2f/?mibextid=wwXIfr', color: 'hover:text-blue-500' },
+        { name: 'LinkedIn', icon: SiX, href: 'https://www.linkedin.com/company/repz-ar/', color: 'hover:text-red-500' }
     ];
 
     return (
@@ -58,7 +56,7 @@ export default function Footer() {
                             </div>
                             <div className="flex items-center gap-2">
                                 <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                                <span>+94 112 123456</span>
+                                <span>+94 75 340 5009</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0" />
