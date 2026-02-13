@@ -54,45 +54,11 @@ export default function ContactPage() {
         setStatus(null);
     };
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        setLoading(true);
-        setStatus(null);
-
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await res.json().catch(() => ({}));
-            const ok = Boolean(res.ok && data?.success);
-
-            setStatus({
-                ok,
-                text: ok
-                    ? "Message sent! We’ll get back to you soon."
-                    : data?.message || "Couldn’t send your message. Please try again.",
-            });
-
-            if (ok) {
-                setFormData((prev) => ({
-                    ...prev,
-                    name: "",
-                    email: "",
-                    message: "",
-                    subject: prev.subject,
-                }));
-            }
-        } catch {
-            setStatus({
-                ok: false,
-                text: "Network error. Please check your connection and try again.",
-            });
-        } finally {
-            setLoading(false);
-        }
+        const subject = encodeURIComponent(`REPZ Contact: ${formData.subject}`);
+        const body = encodeURIComponent(`Name: ${formData.name} Email: ${formData.email}  Message: ${formData.message}`);
+        window.location.href = `mailto:repz-y04-05@iit.ac.lk?subject=${subject}&body=${body}`;
     };
 
     return (
