@@ -34,6 +34,11 @@ const PillNavigation: React.FC<PillNavigationProps> = ({ links }) => {
     // Type for the link refs map (mapping string names to HTMLLinkElement or null)
     const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
+    useEffect(() => {
+        const nextActive = links.find(link => link.path === pathname)?.name ?? links[0].name;
+        setActiveTab(nextActive);
+    }, [links, pathname]);
+
     const calculateIndicatorStyle = useCallback(() => {
         if (activeTab && linkRefs.current[activeTab]) {
             const container = containerRef.current;

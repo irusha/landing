@@ -56,14 +56,6 @@ const fallbackImages = [
 
 const TEXT_BLOCKS: TextBlock[] = [
     {
-        id: "splash",
-        eyebrow: "Welcome",
-        title: "Your AR Fitness Journey Starts Here",
-        body: "Experience the future of personalized training with augmented reality guidance.",
-        className: "hidden md:block absolute left-1/2 bottom-20 -translate-x-1/2 text-center max-w-xl",
-        range: STAGE_RANGES[0],
-    },
-    {
         id: "left-feature",
         eyebrow: "Smart Training",
         title: "Build Custom Workouts",

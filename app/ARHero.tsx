@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {ShaderAnimation} from "@/components/ShaderAnimation";
 
 export default function ARGymHero() {
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsVisible(true);
@@ -96,6 +98,7 @@ export default function ARGymHero() {
         >
           <div className="flex flex-col sm:flex-row gap-4">
             <button
+              onClick={() => router.push("/contact")}
               className="group relative px-8 py-4 text-black dark:text-black font-bold text-lg rounded-full overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105"
               style={{
                 backgroundColor: "hsl(var(--color-brand-accent))",
@@ -191,4 +194,3 @@ export default function ARGymHero() {
   );
 }
 
-const { useRef } = await import("react");
