@@ -8,32 +8,28 @@ import LeadershipGrid from "@/components/LeadershipGrid";
 export default function AboutPage() {
     const leaders = [
         {
-            image: "/images/gym1.jpg",
-            name: "Michael Rodriguez",
-            role: "Founder & CEO",
-            bio: "With over 20 years in the fitness industry, Michael founded REPZ to merge technology with training.",
-            skills: ["Leadership", "Fitness Strategy", "Community Building"],
+            image: "/images/leader1.jpeg",
+            name: "Ishan Paranamana Rodriguez",
         },
         {
-            image: "/images/gym2.jpg",
-            name: "Sarah Johnson",
-            role: "Head of Training",
-            bio: "ACSM certified trainer specializing in strength training and performance programs.",
-            skills: ["Strength Training", "Coaching", "Program Design"],
+            image: "/images/leader2.jpeg",
+            name: "Piviru Wijewardhana",
         },
         {
-            image: "/images/gym3.jpg",
-            name: "David Chen",
-            role: "Nutrition Director",
-            bio: "Registered dietitian focused on sports nutrition and sustainable wellness habits.",
-            skills: ["Sports Nutrition", "Meal Planning", "Health Coaching"],
+            image: "/images/leader3.jpeg",
+            name: "Irusha Athukoralage",
         },
         {
-            image: "/images/gym1.jpg",
-            name: "Emily Davis",
-            role: "Wellness Coordinator",
-            bio: "Certified yoga and mindfulness instructor promoting holistic wellness.",
-            skills: ["Yoga", "Mindfulness", "Mental Wellness"],
+            image: "/images/leader4.jpeg",
+            name: "Navoda Bandara",
+        },
+        {
+            image: "/images/leader5.jpeg",
+            name: "Deeno Bajitha",
+        },
+        {
+            image: "/images/leader6.jpeg",
+            name: "Yashodha Samarasinghe",
         },
     ];
 

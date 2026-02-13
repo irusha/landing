@@ -72,7 +72,7 @@ export default function CoreValues() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: i * 0.15 }}
                         viewport={{ once: true }}
-                        className="bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all min-h-[260px]"
+                        className="bg-gradient-to-br from-white/10 to-white/[0.03] dark:from-white/5 dark:to-white/[0.02] backdrop-blur-sm border border-gray-200/40 dark:border-white/10 dark:text-white/80 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all min-h-[260px]"
                     >
                         <div
                             className={`w-16 h-16 ${value.bg} rounded-2xl flex items-center justify-center mb-6`}

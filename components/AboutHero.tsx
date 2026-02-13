@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function AboutHeroSection() {
     return (
-        <section className="pt-24 min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex flex-col items-center">
+        <section className="pt-24 min-h-screen relative bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-[#0b0f17] dark:via-[#0b0f17] dark:to-[#070a10] flex flex-col items-center">
 
             {/* === MAIN TITLE === */}
             <motion.h1
@@ -47,7 +47,7 @@ export default function AboutHeroSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.7 }}
                     viewport={{ once: true }}
-                    className="p-10 rounded-3xl shadow-lg bg-gradient-to-r from-blue-50 to-white dark:from-gray-800 dark:to-gray-700"
+                    className="p-10 rounded-3xl shadow-lg bg-gradient-to-br from-white/20 to-gray-400/10 dark:from-gray-400/15 dark:to-gray-600/10 backdrop-blur-sm border border-gray-300/50 dark:border-gray-400/20"
                 >
                     <h2 className="text-2xl font-semibold mb-4 text-foreground">
                         You know the workouts, but what about the team behind <span style={{color: "hsl(var(--color-brand-accent))"}}>REPZ</span>?
@@ -71,7 +71,7 @@ export default function AboutHeroSection() {
                     whileInView="visible"
                     viewport={{ once: true }}
                     transition={{ staggerChildren: 0.15 }}
-                    className="bg-gradient-to-r from-white to-blue-50 dark:from-gray-700 dark:to-gray-800 p-8 rounded-3xl shadow-lg flex flex-wrap justify-center gap-4"
+                    className="bg-gradient-to-r bg-gradient-to-br from-white/20 to-gray-400/10 dark:from-gray-400/15 dark:to-gray-600/10 backdrop-blur-sm border border-gray-300/50 dark:border-gray-400/20 p-8 rounded-3xl shadow-lg flex flex-wrap justify-center gap-4"
                 >
                     {["/team1.jpg", "/team2.jpg", "/team3.jpg", "/team4.jpg"].map((src, idx) => (
                         <motion.div
