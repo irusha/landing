@@ -227,7 +227,7 @@ export default function FeaturesPage() {
                 <FeatureSlide
                     subtitle="AR Form Assistant"
                     title="Train Safely With Real-Time Guidance"
-                    description="Repz uses augmented reality overlays to help you perfect your form, avoid injuries, and perform every rep with confidence."
+                    description="Repz uses augmented reality overlays to help you perform every rep with confidence."
                     image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1470"
                 />
 
