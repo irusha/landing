@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import LeaderCard, { LeaderCardProps } from "./LeadershipCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -12,9 +12,6 @@ interface LeadershipGridProps {
 export default function LeadershipGrid({ leaders }: LeadershipGridProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const isPausedRef = useRef(false);
-    const directionRef = useRef(1); // 1 = right, -1 = left
-
-    const [, forceRender] = useState(0); // only used to trigger re-render if needed
 
     useEffect(() => {
         const container = scrollRef.current;
@@ -26,19 +23,16 @@ export default function LeadershipGrid({ leaders }: LeadershipGridProps) {
             const maxScroll = container.scrollWidth - container.clientWidth;
 
             if (container.scrollLeft >= maxScroll - 5) {
-                directionRef.current = -1; // hit right end → go left
-            } else if (container.scrollLeft <= 5) {
-                directionRef.current = 1; // hit left end → go right
+                // Hit the end — jump back to start
+                container.scrollTo({ left: 0, behavior: "smooth" });
+            } else {
+                // Keep scrolling right one by one
+                container.scrollBy({ left: 300, behavior: "smooth" });
             }
-
-            container.scrollBy({
-                left: 300 * directionRef.current,
-                behavior: "smooth",
-            });
         }, 2500);
 
         return () => clearInterval(interval);
-    }, []); // empty deps — refs never go stale
+    }, []);
 
     const scrollLeft = () => {
         scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
