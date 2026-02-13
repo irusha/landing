@@ -11,27 +11,34 @@ interface LeadershipGridProps {
 
 export default function LeadershipGrid({ leaders }: LeadershipGridProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [isPaused, setIsPaused] = useState(false);
+    const isPausedRef = useRef(false);
+    const directionRef = useRef(1); // 1 = right, -1 = left
 
-    // Auto-scroll
+    const [, forceRender] = useState(0); // only used to trigger re-render if needed
+
     useEffect(() => {
         const container = scrollRef.current;
         if (!container) return;
 
         const interval = setInterval(() => {
-            if (isPaused) return;
+            if (isPausedRef.current) return;
 
             const maxScroll = container.scrollWidth - container.clientWidth;
 
-            if (container.scrollLeft >= maxScroll) {
-                container.scrollTo({ left: 0, behavior: "smooth" });
-            } else {
-                container.scrollBy({ left: 300, behavior: "smooth" });
+            if (container.scrollLeft >= maxScroll - 5) {
+                directionRef.current = -1; // hit right end → go left
+            } else if (container.scrollLeft <= 5) {
+                directionRef.current = 1; // hit left end → go right
             }
+
+            container.scrollBy({
+                left: 300 * directionRef.current,
+                behavior: "smooth",
+            });
         }, 2500);
 
         return () => clearInterval(interval);
-    }, [isPaused]);
+    }, []); // empty deps — refs never go stale
 
     const scrollLeft = () => {
         scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
@@ -59,8 +66,8 @@ export default function LeadershipGrid({ leaders }: LeadershipGridProps) {
                 {/* Cards Row */}
                 <div
                     ref={scrollRef}
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
+                    onMouseEnter={() => { isPausedRef.current = true; }}
+                    onMouseLeave={() => { isPausedRef.current = false; }}
                     className="flex flex-row gap-10 overflow-x-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-4"
                 >
                     {leaders.map((leader, index) => (
